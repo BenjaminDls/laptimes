@@ -7,18 +7,18 @@ import lombok.Data
 class SearchDTO (
 
 	@JsonProperty(value = "track", required = false)
-	val track: String,
+	val track: String?,
 
 	@JsonProperty(value = "game", required = false)
-	val game: String,
+	val game: String?,
 
 	@JsonProperty(value = "car", required = false)
-	val car: String,
+	val car: String?,
 
 	@JsonProperty(value = "driver", required = false)
-	val driver: String,
+	val driver: String?,
 
 	@JsonProperty(value = "searchBest", required = false)
-	val searchBest: Boolean
+	val searchBest: Boolean?
 
 )

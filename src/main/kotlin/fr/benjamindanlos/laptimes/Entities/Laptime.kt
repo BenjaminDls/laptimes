@@ -1,5 +1,6 @@
 package fr.benjamindanlos.laptimes.Entities
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.Data
 import org.springframework.data.annotation.CreatedDate
@@ -11,6 +12,7 @@ import java.time.LocalDateTime
 class Laptime(
 
 	@Id
+	@JsonIgnore
 	@Column(nullable = false, name = "id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	val id: Int,
@@ -32,6 +34,9 @@ class Laptime(
 
 	@Column(nullable = false, name = "laptimeString")
 	val laptimeString: String,
+
+	@Column(nullable = false, name = "carNumber")
+	val carNumber: String,
 
 	@CreatedDate
 	@Column(nullable = false, name = "date")

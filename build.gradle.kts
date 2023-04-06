@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "fr.benjamindanlos"
-version = "0.0.1-SNAPSHOT"
+version = "0.1.0"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
@@ -25,6 +25,7 @@ repositories {
 extra["springCloudVersion"] = "2022.0.1"
 
 dependencies {
+	implementation("io.netty:netty-all")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")

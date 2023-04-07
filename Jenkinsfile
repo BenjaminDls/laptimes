@@ -3,16 +3,16 @@ pipeline {
     stages {
         stage('Build') {
             when {
-                branch "master"
+                branch "main"
             }
             steps {
                 // Run Gradle to build without the tests.
                 sh "./gradlew build"
             }
         }
-        stage('Results') {
+        stage('Publish') {
             when {
-                branch "master"
+                branch "main"
             }
             steps {
                 archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true

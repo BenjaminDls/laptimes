@@ -6,9 +6,11 @@ package fr.benjamindanlos.laptimes.F12022.Data;
 
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
+import lombok.Data;
 
 import java.util.Arrays;
 
+@Data
 public class ExtraCarMotionData {
 
     public static final int SIZE = 120;
@@ -98,171 +100,6 @@ public class ExtraCarMotionData {
         buffer.writeFloatLE(this.angularAccelerationZ);
         buffer.writeFloatLE(this.frontWheelsAngle);
         return buffer;
-    }
-
-    /**
-     * @return Suspension position of each wheel
-     */
-    public float[] getSuspensionPosition() {
-        return suspensionPosition;
-    }
-
-    public void setSuspensionPosition(float[] suspensionPosition) {
-        this.suspensionPosition = suspensionPosition;
-    }
-
-    /**
-     * @return Suspension velocity of each wheel
-     */
-    public float[] getSuspensionVelocity() {
-        return suspensionVelocity;
-    }
-
-    public void setSuspensionVelocity(float[] suspensionVelocity) {
-        this.suspensionVelocity = suspensionVelocity;
-    }
-
-    /**
-     * @return Suspension acceleration of each wheel
-     */
-    public float[] getSuspensionAcceleration() {
-        return suspensionAcceleration;
-    }
-
-    public void setSuspensionAcceleration(float[] suspensionAcceleration) {
-        this.suspensionAcceleration = suspensionAcceleration;
-    }
-
-    /**
-     * @return Speed of each wheel
-     */
-    public float[] getWheelSpeed() {
-        return wheelSpeed;
-    }
-
-    public void setWheelSpeed(float[] wheelSpeed) {
-        this.wheelSpeed = wheelSpeed;
-    }
-
-    /**
-     * @return Slip ratio for each wheel
-     */
-    public float[] getWheelSlip() {
-        return wheelSlip;
-    }
-
-    public void setWheelSlip(float[] wheelSlip) {
-        this.wheelSlip = wheelSlip;
-    }
-
-    /**
-     * @return Velocity in local space
-     */
-    public float getLocalVelocityX() {
-        return localVelocityX;
-    }
-
-    public void setLocalVelocityX(float localVelocityX) {
-        this.localVelocityX = localVelocityX;
-    }
-
-    /**
-     * @return Velocity in local space
-     */
-    public float getLocalVelocityY() {
-        return localVelocityY;
-    }
-
-    public void setLocalVelocityY(float localVelocityY) {
-        this.localVelocityY = localVelocityY;
-    }
-
-    /**
-     * @return Velocity in local space
-     */
-    public float getLocalVelocityZ() {
-        return localVelocityZ;
-    }
-
-    public void setLocalVelocityZ(float localVelocityZ) {
-        this.localVelocityZ = localVelocityZ;
-    }
-
-    /**
-     * @return Angular velocity x-component
-     */
-    public float getAngularVelocityX() {
-        return angularVelocityX;
-    }
-
-    public void setAngularVelocityX(float angularVelocityX) {
-        this.angularVelocityX = angularVelocityX;
-    }
-
-    /**
-     * @return Angular velocity y-component
-     */
-    public float getAngularVelocityY() {
-        return angularVelocityY;
-    }
-
-    public void setAngularVelocityY(float angularVelocityY) {
-        this.angularVelocityY = angularVelocityY;
-    }
-
-    /**
-     * @return Angular velocity z-component
-     */
-    public float getAngularVelocityZ() {
-        return angularVelocityZ;
-    }
-
-    public void setAngularVelocityZ(float angularVelocityZ) {
-        this.angularVelocityZ = angularVelocityZ;
-    }
-
-    /**
-     * @return Angular acceleration x-component
-     */
-    public float getAngularAccelerationX() {
-        return angularAccelerationX;
-    }
-
-    public void setAngularAccelerationX(float angularAccelerationX) {
-        this.angularAccelerationX = angularAccelerationX;
-    }
-
-    /**
-     * @return Angular acceleration y-component
-     */
-    public float getAngularAccelerationY() {
-        return angularAccelerationY;
-    }
-
-    public void setAngularAccelerationY(float angularAccelerationY) {
-        this.angularAccelerationY = angularAccelerationY;
-    }
-
-    /**
-     * @return Angular acceleration z-component
-     */
-    public float getAngularAccelerationZ() {
-        return angularAccelerationZ;
-    }
-
-    public void setAngularAccelerationZ(float angularAccelerationZ) {
-        this.angularAccelerationZ = angularAccelerationZ;
-    }
-
-    /**
-     * @return Current front wheels angle in radians
-     */
-    public float getFrontWheelsAngle() {
-        return frontWheelsAngle;
-    }
-
-    public void setFrontWheelsAngle(float frontWheelsAngle) {
-        this.frontWheelsAngle = frontWheelsAngle;
     }
 
     @Override

@@ -5,7 +5,9 @@
 package fr.benjamindanlos.laptimes.F12022.Data;
 
 import io.netty.buffer.ByteBuf;
+import lombok.Data;
 
+@Data
 public class RaceWinner {
 
     private short vehicleIdx;
@@ -30,17 +32,6 @@ public class RaceWinner {
     public ByteBuf fillBuffer(ByteBuf buffer) {
         buffer.writeByte(this.vehicleIdx);
         return buffer;
-    }
-
-    /**
-     * @return Vehicle index of the race winner
-     */
-    public short getVehicleIdx() {
-        return vehicleIdx;
-    }
-
-    public void setVehicleIdx(short vehicleIdx) {
-        this.vehicleIdx = vehicleIdx;
     }
 
     @Override

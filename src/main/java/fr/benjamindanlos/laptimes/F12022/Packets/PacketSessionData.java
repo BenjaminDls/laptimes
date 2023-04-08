@@ -17,6 +17,7 @@ import fr.benjamindanlos.laptimes.F12022.Enums.SafetyCarStatus;
 import fr.benjamindanlos.laptimes.F12022.Enums.SessionType;
 import fr.benjamindanlos.laptimes.F12022.Enums.Track;
 import fr.benjamindanlos.laptimes.F12022.Enums.Weather;
+import lombok.Data;
 
 /**
  * Session Packet
@@ -24,6 +25,7 @@ import fr.benjamindanlos.laptimes.F12022.Enums.Weather;
  * The session packet includes details about the current session in progress.
  * Frequency: 2 per second
  */
+@Data
 public class PacketSessionData extends Packet {
 
     // 251
@@ -54,248 +56,6 @@ public class PacketSessionData extends Packet {
     private short networkGame;
     private short numWeatherForecastSamples;
     private List<WeatherForecastSample> weatherForecastSamples = new ArrayList<>(PacketConstants.WEATHER_FORECAST_SAMPLES);
-
-    /**
-     * @return Weather
-     * Weather - 0 = clear, 1 = light cloud, 2 = overcast
-     * 3 = light rain, 4 = heavy rain, 5 = storm
-     */
-    public Weather getWeather() {
-        return weather;
-    }
-
-    public void setWeather(Weather weather) {
-        this.weather = weather;
-    }
-
-    /**
-     * @return Track temp. in degrees celsius
-     */
-    public short getTrackTemperature() {
-        return trackTemperature;
-    }
-
-    public void setTrackTemperature(short trackTemperature) {
-        this.trackTemperature = trackTemperature;
-    }
-
-    /**
-     * @return Air temp. in degrees celsius
-     */
-    public short getAirTemperature() {
-        return airTemperature;
-    }
-
-    public void setAirTemperature(short airTemperature) {
-        this.airTemperature = airTemperature;
-    }
-
-    /**
-     * @return Total number of laps in this race
-     */
-    public short getTotalLaps() {
-        return totalLaps;
-    }
-
-    public void setTotalLaps(short totalLaps) {
-        this.totalLaps = totalLaps;
-    }
-
-    /**
-     * @return Track length in metres
-     */
-    public int getTrackLength() {
-        return trackLength;
-    }
-
-    public void setTrackLength(int trackLength) {
-        this.trackLength = trackLength;
-    }
-
-    /**
-     * @return Session type
-     * 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P
-     * 5 = Q1, 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ
-     * 10 = R, 11 = R2, 12 = Time Trial
-     */
-    public SessionType getSessionType() {
-        return sessionType;
-    }
-
-    public void setSessionType(SessionType sessionType) {
-        this.sessionType = sessionType;
-    }
-
-    /**
-     * @return Track ID
-     * -1 for unknown, 0-21 for tracks, see appendix
-     */
-    public Track getTrackId() {
-        return trackId;
-    }
-
-    public void setTrackId(Track trackId) {
-        this.trackId = trackId;
-    }
-
-    /**
-     * @return Formula
-     * Formula, 0 = F1 Modern, 1 = F1 Classic, 2 = F2, 3 = F1 Generic
-     */
-    public Formula getFormula() {
-        return formula;
-    }
-
-    public void setFormula(Formula formula) {
-        this.formula = formula;
-    }
-
-    /**
-     * @return Time left in session in seconds
-     */
-    public int getSessionTimeLeft() {
-        return sessionTimeLeft;
-    }
-
-    public void setSessionTimeLeft(int sessionTimeLeft) {
-        this.sessionTimeLeft = sessionTimeLeft;
-    }
-
-    /**
-     * @return Session duration in seconds
-     */
-    public int getSessionDuration() {
-        return sessionDuration;
-    }
-
-    public void setSessionDuration(int sessionDuration) {
-        this.sessionDuration = sessionDuration;
-    }
-
-    /**
-     * @return Pit speed limit in kilometres per hour
-     */
-    public short getPitSpeedLimit() {
-        return pitSpeedLimit;
-    }
-
-    public void setPitSpeedLimit(short pitSpeedLimit) {
-        this.pitSpeedLimit = pitSpeedLimit;
-    }
-
-    /**
-     * @return Whether the game is paused
-     */
-    public short getGamePaused() {
-        return gamePaused;
-    }
-
-    public void setGamePaused(short gamePaused) {
-        this.gamePaused = gamePaused;
-    }
-
-    /**
-     * @return Whether the player is spectating
-     */
-    public short getIsSpectating() {
-        return isSpectating;
-    }
-
-    public void setIsSpectating(short isSpectating) {
-        this.isSpectating = isSpectating;
-    }
-
-    /**
-     * @return Index of the car being spectated
-     */
-    public short getSpectatorCarIndex() {
-        return spectatorCarIndex;
-    }
-
-    public void setSpectatorCarIndex(short spectatorCarIndex) {
-        this.spectatorCarIndex = spectatorCarIndex;
-    }
-
-    /**
-     * @return SLI Pro support, 0 = inactive, 1 = active
-     */
-    public short getSliProNativeSupport() {
-        return sliProNativeSupport;
-    }
-
-    public void setSliProNativeSupport(short sliProNativeSupport) {
-        this.sliProNativeSupport = sliProNativeSupport;
-    }
-
-    /**
-     * @return Number of marshal zones to follow
-     */
-    public short getNumMarshalZones() {
-        return numMarshalZones;
-    }
-
-    public void setNumMarshalZones(short numMarshalZones) {
-        this.numMarshalZones = numMarshalZones;
-    }
-
-    /**
-     * @return List of marshal zones – max 21
-     */
-    public List<MarshalZone> getMarshalZones() {
-        return marshalZones;
-    }
-
-    public void setMarshalZones(List<MarshalZone> marshalZones) {
-        this.marshalZones = marshalZones;
-    }
-
-    /**
-     * @return Safety car status
-     * 0 = no safety car, 1 = full safety car
-     * 2 = virtual safety car
-     * 0 = offline, 1 = online
-     */
-    public SafetyCarStatus getSafetyCarStatus() {
-        return safetyCarStatus;
-    }
-
-    public void setSafetyCarStatus(SafetyCarStatus safetyCarStatus) {
-        this.safetyCarStatus = safetyCarStatus;
-    }
-
-    /**
-     * @return Network game
-     * 0 = offline, 1 = online
-     */
-    public short getNetworkGame() {
-        return networkGame;
-    }
-
-    public void setNetworkGame(short networkGame) {
-        this.networkGame = networkGame;
-    }
-
-    /**
-     * @return Number of weather samples to follow
-     */
-    public short getNumWeatherForecastSamples() {
-        return numWeatherForecastSamples;
-    }
-
-    public void setNumWeatherForecastSamples(short numWeatherForecastSamples) {
-        this.numWeatherForecastSamples = numWeatherForecastSamples;
-    }
-
-    /**
-     * @return List of weather forecast samples
-     */
-    public List<WeatherForecastSample> getWeatherForecastSamples() {
-        return weatherForecastSamples;
-    }
-
-    public void setWeatherForecastSamples(List<WeatherForecastSample> weatherForecastSamples) {
-        this.weatherForecastSamples = weatherForecastSamples;
-    }
 
     @Override
     public String toString() {
@@ -328,13 +88,13 @@ public class PacketSessionData extends Packet {
         for (WeatherForecastSample wfs : weatherForecastSamples) {
             sb.append(wfs.toString() + ",");
         }
-        sb.replace(sb.length() - 1, sb.length() - 1, "]");
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+		//super.fill(buffer);
         this.weather = Weather.valueOf(buffer.readUnsignedByte());
         this.trackTemperature = buffer.readByte();
         this.airTemperature = buffer.readByte();
@@ -351,14 +111,14 @@ public class PacketSessionData extends Packet {
         this.spectatorCarIndex = buffer.readUnsignedByte();
         this.sliProNativeSupport = buffer.readUnsignedByte();
         this.numMarshalZones = buffer.readUnsignedByte();
-        for (int i = 0; i < PacketConstants.MARSHAL_ZONES; i++) {
+        for (int i = 0; i < this.numMarshalZones; i++) {
             MarshalZone mz = new MarshalZone();
             this.marshalZones.add(mz.fill(buffer));
         }
         this.safetyCarStatus = SafetyCarStatus.valueOf(buffer.readUnsignedByte());
         this.networkGame = buffer.readUnsignedByte();
         this.numWeatherForecastSamples = buffer.readUnsignedByte();
-        for (int i = 0; i < PacketConstants.WEATHER_FORECAST_SAMPLES; i++) {
+        for (int i = 0; i < this.numWeatherForecastSamples; i++) {
             WeatherForecastSample wfs = new WeatherForecastSample();
             this.weatherForecastSamples.add(wfs.fill(buffer));
         }

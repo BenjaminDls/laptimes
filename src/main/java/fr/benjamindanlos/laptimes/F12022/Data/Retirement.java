@@ -5,7 +5,9 @@
 package fr.benjamindanlos.laptimes.F12022.Data;
 
 import io.netty.buffer.ByteBuf;
+import lombok.Data;
 
+@Data
 public class Retirement {
 
     private short vehicleIdx;
@@ -30,17 +32,6 @@ public class Retirement {
     public ByteBuf fillBuffer(ByteBuf buffer) {
         buffer.writeByte(this.vehicleIdx);
         return buffer;
-    }
-
-    /**
-     * @return Vehicle index of car retiring
-     */
-    public short getVehicleIdx() {
-        return vehicleIdx;
-    }
-
-    public void setVehicleIdx(short vehicleIdx) {
-        this.vehicleIdx = vehicleIdx;
     }
 
     @Override

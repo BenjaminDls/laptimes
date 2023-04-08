@@ -5,7 +5,9 @@
 package fr.benjamindanlos.laptimes.F12022.Data;
 
 import io.netty.buffer.ByteBuf;
+import lombok.Data;
 
+@Data
 public class FastestLap {
 
     private short vehicleIdx;
@@ -33,28 +35,6 @@ public class FastestLap {
         buffer.writeByte(this.vehicleIdx);
         buffer.writeFloatLE(this.lapTime);
         return buffer;
-    }
-
-    /**
-     * @return Vehicle index of car achieving fastest lap
-     */
-    public short getVehicleIdx() {
-        return vehicleIdx;
-    }
-
-    public void setVehicleIdx(short vehicleIdx) {
-        this.vehicleIdx = vehicleIdx;
-    }
-
-    /**
-     * @return Lap time is in seconds
-     */
-    public float getLapTime() {
-        return lapTime;
-    }
-
-    public void setLapTime(float lapTime) {
-        this.lapTime = lapTime;
     }
 
     @Override

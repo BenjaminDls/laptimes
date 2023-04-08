@@ -7,9 +7,11 @@ package fr.benjamindanlos.laptimes.F12022.Data;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Enums.ResultStatus;
+import lombok.Data;
 
 import java.util.Arrays;
 
+@Data
 public class FinalClassificationData {
 
     public static final int SIZE = 37;
@@ -46,10 +48,10 @@ public class FinalClassificationData {
         this.penaltiesTime = buffer.readUnsignedByte();
         this.numPenalties = buffer.readUnsignedByte();
         this.numTyreStints = buffer.readUnsignedByte();
-        for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+        for (int j = 0; j < this.numTyreStints; j++) {
             this.tyreStintsActual[j] = buffer.readUnsignedByte();
         }
-        for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+        for (int j = 0; j < this.numTyreStints; j++) {
             this.tyreStintsVisual[j] = buffer.readUnsignedByte();
         }
         return this;
@@ -80,152 +82,6 @@ public class FinalClassificationData {
             buffer.writeByte(this.tyreStintsVisual[j]);
         }
         return buffer;
-    }
-
-    /**
-     * @return Finishing position
-     */
-    public short getPosition() {
-        return position;
-    }
-
-    public void setPosition(short position) {
-        this.position = position;
-    }
-
-    /**
-     * @return Number of laps completed
-     */
-    public short getNumLaps() {
-        return numLaps;
-    }
-
-    public void setNumLaps(short numLaps) {
-        this.numLaps = numLaps;
-    }
-
-    /**
-     * @return Grid position of the car
-     */
-    public short getGridPosition() {
-        return gridPosition;
-    }
-
-    public void setGridPosition(short gridPosition) {
-        this.gridPosition = gridPosition;
-    }
-
-    /**
-     * @return Number of points scored
-     */
-    public short getPoints() {
-        return points;
-    }
-
-    public void setPoints(short points) {
-        this.points = points;
-    }
-
-    /**
-     * @return Number of pit stops made
-     */
-    public short getNumPitStops() {
-        return numPitStops;
-    }
-
-    public void setNumPitStops(short numPitStops) {
-        this.numPitStops = numPitStops;
-    }
-
-    /**
-     * @return Result status
-     * 0 = invalid, 1 = inactive, 2 = active
-     * 3 = finished, 4 = disqualified, 5 = not classified
-     * 6 = retired
-     */
-    public ResultStatus getResultStatus() {
-        return resultStatus;
-    }
-
-    public void setResultStatus(ResultStatus resultStatus) {
-        this.resultStatus = resultStatus;
-    }
-
-    /**
-     * @return Best lap time of the session in seconds
-     */
-    public float getBestLapTime() {
-        return bestLapTime;
-    }
-
-    public void setBestLapTime(float bestLapTime) {
-        this.bestLapTime = bestLapTime;
-    }
-
-    /**
-     * @return Total race time in seconds without penalties
-     */
-    public double getTotalRaceTime() {
-        return totalRaceTime;
-    }
-
-    public void setTotalRaceTime(double totalRaceTime) {
-        this.totalRaceTime = totalRaceTime;
-    }
-
-    /**
-     * @return Total penalties accumulated in seconds
-     */
-    public short getPenaltiesTime() {
-        return penaltiesTime;
-    }
-
-    public void setPenaltiesTime(short penaltiesTime) {
-        this.penaltiesTime = penaltiesTime;
-    }
-
-    /**
-     * @return Number of penalties applied to this driver
-     */
-    public short getNumPenalties() {
-        return numPenalties;
-    }
-
-    public void setNumPenalties(short numPenalties) {
-        this.numPenalties = numPenalties;
-    }
-
-    /**
-     * @return Number of tyres stints up to maximum
-     */
-    public short getNumTyreStints() {
-        return numTyreStints;
-    }
-
-    public void setNumTyreStints(short numTyreStints) {
-        this.numTyreStints = numTyreStints;
-    }
-
-    /**
-     * @return Actual tyres used by this driver
-     */
-    public short[] getTyreStintsActual() {
-        return tyreStintsActual;
-    }
-
-    public void setTyreStintsActual(short[] tyreStintsActual) {
-        this.tyreStintsActual = tyreStintsActual;
-    }
-
-    /**
-     * @return Visual tyres used by this driver
-     */
-    public short[] getTyreStintsVisual() {
-        return tyreStintsVisual;
-    }
-
-    public void setTyreStintsVisual(short[] tyreStintsVisual) {
-        this.tyreStintsVisual = tyreStintsVisual;
     }
 
     @Override

@@ -4,12 +4,17 @@
  */
 package fr.benjamindanlos.laptimes.F12022.Decoder;
 
+import fr.benjamindanlos.laptimes.F12022.Enums.PacketId;
+import fr.benjamindanlos.laptimes.F12022.Packets.PacketHeader;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import fr.benjamindanlos.laptimes.F12022.Packets.Packet;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
 public class PacketEventDecoder extends MessageToMessageDecoder<DatagramPacket> {
@@ -19,7 +24,11 @@ public class PacketEventDecoder extends MessageToMessageDecoder<DatagramPacket> 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket, List<Object> list) throws Exception {
         ByteBuf buffer = datagramPacket.content();
-        Packet packet = packetDecoder.decode(buffer);
-        list.add(packet);
+		Packet packet = packetDecoder.decodeUsingHeader(buffer);
+		if(packet!=null){
+			System.out.println(packet.getClass());
+			System.out.println(PacketId.valueOf(packet.getHeader().getPacketId().getValue()));
+			list.add(packet);
+		}
     }
 }

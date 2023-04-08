@@ -14,6 +14,9 @@ import fr.benjamindanlos.laptimes.F12022.Data.Retirement;
 import fr.benjamindanlos.laptimes.F12022.Data.SpeedTrap;
 import fr.benjamindanlos.laptimes.F12022.Data.TeamMateInPits;
 import fr.benjamindanlos.laptimes.F12022.Enums.EventCode;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Event Packet
@@ -21,37 +24,17 @@ import fr.benjamindanlos.laptimes.F12022.Enums.EventCode;
  * This packet gives details of events that happen during the course of a session.
  * Frequency: When the event occurs
  */
+@Data
 public class PacketEventData extends Packet {
 
     // 35
     public static final int SIZE = PacketHeader.SIZE + 
                                     4 + 
                                     EventDataDetails.SIZE;
-    
+
     private EventCode eventCode;
-    private EventDataDetails eventDataDetails = new EventDataDetails();
 
-    /**
-     * @return Event code
-     */
-    public EventCode getEventCode() {
-        return eventCode;
-    }
-
-    public void setEventCode(EventCode eventCode) {
-        this.eventCode = eventCode;
-    }
-
-    /**
-     * @return Event details 
-     */
-    public EventDataDetails getEventDataDetails() {
-        return eventDataDetails;
-    }
-
-    public void setEventDataDetails(EventDataDetails eventDataDetails) {
-        this.eventDataDetails = eventDataDetails;
-    }
+	private EventDataDetails eventDataDetails = new EventDataDetails();
 
     @Override
     public String toString() {
@@ -65,46 +48,48 @@ public class PacketEventData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         this.eventCode = EventCode.valueFrom(PacketUtils.readString(buffer, 4));
-        switch (this.eventCode) {
-            case SESSION_STARTED:
-                break;
-            case SESSION_ENDED:
-                break;
-            case FASTEST_LAP:
-                FastestLap fl = new FastestLap();
-                this.eventDataDetails.setFastestLap(fl.fill(buffer));
-                break;
-            case RETIREMENT:
-                Retirement r = new Retirement();
-                this.eventDataDetails.setRetirement(r.fill(buffer));
-                break;
-            case DRS_ENABLED:
-                break;
-            case DRS_DISABLED:
-                break;
-            case TEAM_MATE_IN_PITS:
-                TeamMateInPits tmip = new TeamMateInPits();
-                this.eventDataDetails.setTeamMateInPits(tmip.fill(buffer));
-                break;
-            case CHEQUERED_FLAG:
-                break;
-            case RACE_WINNER:
-                RaceWinner rw = new RaceWinner();
-                this.eventDataDetails.setRaceWinner(rw.fill(buffer));
-                break;
-            case PENALTY_ISSUED:
-                Penalty p = new Penalty();
-                this.eventDataDetails.setPenalty(p.fill(buffer));
-                break;
-            case SPEED_TRAP_TRIGGERED:
-                SpeedTrap st = new SpeedTrap();
-                this.eventDataDetails.setSpeedTrap(st.fill(buffer));
-                break;
-            default:
-                throw new IllegalArgumentException("EventCode=" + this.eventCode + " not supported");
-        }
+		if(eventCode!=null){
+			switch (this.eventCode) {
+				case SESSION_STARTED:
+					break;
+				case SESSION_ENDED:
+					break;
+				case FASTEST_LAP:
+					FastestLap fl = new FastestLap();
+					this.eventDataDetails.setFastestLap(fl.fill(buffer));
+					break;
+				case RETIREMENT:
+					Retirement r = new Retirement();
+					this.eventDataDetails.setRetirement(r.fill(buffer));
+					break;
+				case DRS_ENABLED:
+					break;
+				case DRS_DISABLED:
+					break;
+				case TEAM_MATE_IN_PITS:
+					TeamMateInPits tmip = new TeamMateInPits();
+					this.eventDataDetails.setTeamMateInPits(tmip.fill(buffer));
+					break;
+				case CHEQUERED_FLAG:
+					break;
+				case RACE_WINNER:
+					RaceWinner rw = new RaceWinner();
+					this.eventDataDetails.setRaceWinner(rw.fill(buffer));
+					break;
+				case PENALTY_ISSUED:
+					Penalty p = new Penalty();
+					this.eventDataDetails.setPenalty(p.fill(buffer));
+					break;
+				case SPEED_TRAP_TRIGGERED:
+					SpeedTrap st = new SpeedTrap();
+					this.eventDataDetails.setSpeedTrap(st.fill(buffer));
+					break;
+				default:
+					throw new IllegalArgumentException("EventCode=" + this.eventCode + " not supported");
+			}
+		}
         return this;
     }
 

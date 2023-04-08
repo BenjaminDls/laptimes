@@ -11,6 +11,9 @@ import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.CarMotionData;
 import fr.benjamindanlos.laptimes.F12022.Data.ExtraCarMotionData;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Motion Packet
@@ -19,37 +22,16 @@ import fr.benjamindanlos.laptimes.F12022.Data.ExtraCarMotionData;
  * There is additional data for the car being driven with the goal of being able to drive a motion platform setup.
  * Frequency: Rate as specified in menus
  */
+@Data
 public class PacketMotionData extends Packet {
 
     // 1464
     public static final int SIZE = PacketHeader.SIZE + 
                                     CarMotionData.SIZE * PacketConstants.CARS +
                                     ExtraCarMotionData.SIZE;
-    
-    private List<CarMotionData> carMotionData = new ArrayList<>(PacketConstants.CARS);
-    private ExtraCarMotionData extraCarMotionData = new ExtraCarMotionData();
 
-    /**
-     * @return Cars motion data
-     */
-    public List<CarMotionData> getCarMotionData() {
-        return carMotionData;
-    }
-
-    public void setCarMotionData(List<CarMotionData> carMotionData) {
-        this.carMotionData = carMotionData;
-    }
-
-    /**
-     * @return Extra player car only data
-     */
-    public ExtraCarMotionData getExtraCarMotionData() {
-        return extraCarMotionData;
-    }
-
-    public void setExtraCarMotionData(ExtraCarMotionData extraCarMotionData) {
-        this.extraCarMotionData = extraCarMotionData;
-    }
+	private List<CarMotionData> carMotionData = new ArrayList<>(PacketConstants.CARS);
+	private ExtraCarMotionData extraCarMotionData = new ExtraCarMotionData();
 
     @Override
     public String toString() {
@@ -66,7 +48,7 @@ public class PacketMotionData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             CarMotionData cmd = new CarMotionData();
             this.carMotionData.add(cmd.fill(buffer));

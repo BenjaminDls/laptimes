@@ -10,6 +10,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.ParticipantData;
+import lombok.Data;
 
 /**
  * Participants Packet
@@ -19,6 +20,7 @@ import fr.benjamindanlos.laptimes.F12022.Data.ParticipantData;
  * names will be the Steam Id on PC, or the LAN name if appropriate.
  * Frequency: Every 5 seconds
  */
+@Data
 public class PacketParticipantsData extends Packet {
 
     // 1213
@@ -28,28 +30,6 @@ public class PacketParticipantsData extends Packet {
     
     private short numActiveCars;
     private List<ParticipantData> participants = new ArrayList<>(PacketConstants.CARS);
-
-    /**
-     * @return Number of active cars in the data – should match number of cats on HUD
-     */
-    public short getNumActiveCars() {
-        return numActiveCars;
-    }
-
-    public void setNumActiveCars(short numActiveCars) {
-        this.numActiveCars = numActiveCars;
-    }
-
-    /**
-     * @return Participants
-     */
-    public List<ParticipantData> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(List<ParticipantData> participants) {
-        this.participants = participants;
-    }
 
     @Override
     public String toString() {
@@ -66,7 +46,7 @@ public class PacketParticipantsData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         this.numActiveCars = buffer.readUnsignedByte();
         for (int i = 0; i < this.numActiveCars; i++) {
             ParticipantData pd = new ParticipantData();

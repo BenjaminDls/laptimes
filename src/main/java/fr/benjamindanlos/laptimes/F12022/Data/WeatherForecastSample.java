@@ -7,7 +7,9 @@ package fr.benjamindanlos.laptimes.F12022.Data;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.Enums.SessionType;
 import fr.benjamindanlos.laptimes.F12022.Enums.Weather;
+import lombok.Data;
 
+@Data
 public class WeatherForecastSample {
 
     public static final int SIZE = 5;
@@ -46,66 +48,6 @@ public class WeatherForecastSample {
         buffer.writeByte(this.trackTemperature);
         buffer.writeByte(this.airTemperature);
         return buffer;
-    }
-
-    /**
-     * @return Session type
-     * 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P, 5 = Q1
-     * 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ, 10 = R, 11 = R2
-     * 12 = Time Trial
-     */
-    public SessionType getSessionType() {
-        return sessionType;
-    }
-
-    public void setSessionType(SessionType sessionType) {
-        this.sessionType = sessionType;
-    }
-
-    /**
-     * @return Time in minutes the forecast is for
-     */
-    public short getTimeOffset() {
-        return timeOffset;
-    }
-
-    public void setTimeOffset(short timeOffset) {
-        this.timeOffset = timeOffset;
-    }
-
-    /**
-     * @return Weather
-     * Weather - 0 = clear, 1 = light cloud, 2 = overcast
-     * 3 = light rain, 4 = heavy rain, 5 = storm
-     */
-    public Weather getWeather() {
-        return weather;
-    }
-
-    public void setWeather(Weather weather) {
-        this.weather = weather;
-    }
-
-    /**
-     * @return Track temp. in degrees celsius
-     */
-    public short getTrackTemperature() {
-        return trackTemperature;
-    }
-
-    public void setTrackTemperature(short trackTemperature) {
-        this.trackTemperature = trackTemperature;
-    }
-
-    /**
-     * @return Air temp. in degrees celsius
-     */
-    public short getAirTemperature() {
-        return airTemperature;
-    }
-
-    public void setAirTemperature(short airTemperature) {
-        this.airTemperature = airTemperature;
     }
 
     @Override

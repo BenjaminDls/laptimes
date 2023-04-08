@@ -10,6 +10,8 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.CarSetupData;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Car Setups Packet
@@ -24,19 +26,10 @@ public class PacketCarSetupData extends Packet {
     // 1102
     public static final int SIZE = PacketHeader.SIZE +
                                     CarSetupData.SIZE * PacketConstants.CARS ;
-    
+
+	@Getter
+	@Setter
     private List<CarSetupData> carSetupData = new ArrayList<>(PacketConstants.CARS);
-
-    /**
-     * @return Car setup data for all cars
-     */
-    public List<CarSetupData> getCarSetupData() {
-        return carSetupData;
-    }
-
-    public void setCarSetupData(List<CarSetupData> carSetupData) {
-        this.carSetupData = carSetupData;
-    }
 
     @Override
     public String toString() {
@@ -52,7 +45,7 @@ public class PacketCarSetupData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             CarSetupData csd = new CarSetupData();
             this.carSetupData.add(csd.fill(buffer));

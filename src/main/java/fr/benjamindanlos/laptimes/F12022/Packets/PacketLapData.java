@@ -10,6 +10,9 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.LapData;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Lap Data Packet
@@ -17,24 +20,14 @@ import fr.benjamindanlos.laptimes.F12022.Data.LapData;
  * The lap data packet gives details of all the cars in the session.
  * Frequency: Rate as specified in menus
  */
+@Data
 public class PacketLapData extends Packet {
 
     // 1190
     public static final int SIZE = PacketHeader.SIZE +
                                     LapData.SIZE * PacketConstants.CARS;
-    
+
     private List<LapData> lapData = new ArrayList<>(PacketConstants.CARS);
-
-    /**
-     * @return Lap data for all cars on track
-     */
-    public List<LapData> getLapData() {
-        return lapData;
-    }
-
-    public void setLapData(List<LapData> lapData) {
-        this.lapData = lapData;
-    }
 
     @Override
     public String toString() {
@@ -50,7 +43,7 @@ public class PacketLapData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             LapData ld = new LapData();
             this.lapData.add(ld.fill(buffer));

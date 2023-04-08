@@ -18,8 +18,9 @@ public abstract class Packet {
         return header;
     }
 
-    public void setHeader(PacketHeader header) {
+    public Packet setHeader(PacketHeader header) {
         this.header = header;
+		return this;
     }
 
     /**

@@ -4,10 +4,9 @@
  */
 package fr.benjamindanlos.laptimes.F12022.Handler;
 
+import fr.benjamindanlos.laptimes.F12022.Packets.Packet;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import fr.benjamindanlos.laptimes.F12022.Enums.PacketId;
-import fr.benjamindanlos.laptimes.F12022.Packets.Packet;
 
 public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
 
@@ -19,10 +18,10 @@ public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Packet msg) throws Exception
+    protected void channelRead0(ChannelHandlerContext ctx, Packet decodedPacket) throws Exception
 	{
 		//do stuff with the data
-		System.out.println("received packet : "+PacketId.valueOf(msg.getHeader().getPacketId().getValue()));
+		System.out.println("received packet : "+ decodedPacket.toString());
     }
 
 }

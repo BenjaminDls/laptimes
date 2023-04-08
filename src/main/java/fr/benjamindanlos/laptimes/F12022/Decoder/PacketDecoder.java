@@ -19,6 +19,9 @@ import fr.benjamindanlos.laptimes.F12022.Packets.PacketMotionData;
 import fr.benjamindanlos.laptimes.F12022.Packets.PacketParticipantsData;
 import fr.benjamindanlos.laptimes.F12022.Packets.PacketSessionData;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -27,64 +30,33 @@ import java.util.function.Function;
 public class PacketDecoder {
 
     /**
-     * Decode the input buffer containing the packet raw bytes filling a
-     * concrete Packet instance provided by the contructor parameter.
-     * This is useful to allow the caller to pre-allocate a pool of Packet instances
-     * and using them to be filled instead of creating a new one every time.
-     * 
-     * @param buffer buffer with the packet raw bytes
-     * @param ctor function providing the empty Packet instance to fill
-     * @return decoded Packet instance
-     */
-    public Packet decode(ByteBuf buffer, Function<PacketId, ? extends Packet> ctor) {
-        PacketId packetId = getPacketId(buffer);
-        Packet packet = ctor.apply(packetId);
-        return packet.fill(buffer);
-    }
-
-    /**
      * Decode the input buffer containing the packet raw bytes filling
      * a new concrete Packet instance.
      * 
      * @param buffer buffer with the packet raw bytes
      * @return decoded Packet instance
      */
-    public Packet decode(ByteBuf buffer) {
-        return decode(buffer, packetId -> {
-           switch (packetId) {
-                case CAR_SETUPS:
-                    return new PacketCarSetupData();
-                case CAR_STATUS:
-                    return new PacketCarStatusData();
-                case CAR_TELEMETRY:
-                    return new PacketCarTelemetryData();
-                case EVENT:
-                    return new PacketEventData();
-                case FINAL_CLASSIFICATION:
-                    return new PacketFinalClassificationData();
-                case LAP_DATA:
-                    return new PacketLapData();
-                case LOBBY_INFO:
-                    return new PacketLobbyInfoData();
-                case MOTION:
-                    return new PacketMotionData();
-                case PARTICIPANTS:
-                    return new PacketParticipantsData();
-                case SESSION:
-                    return new PacketSessionData();
-                default:
-                    throw new IllegalArgumentException("PacketId=" + packetId + " not supported");
-           } 
-        });
+    public Packet decodeUsingHeader(ByteBuf buffer) {
+        PacketHeader header = new PacketHeader().fill(buffer);
+		if(header==null || header.getPacketId()==null){
+			return null;
+		}
+		//we read some of the data, reset to start so the fill() will be able to set the header without overflow
+		buffer = buffer.resetReaderIndex();
+		PacketId packetId = PacketId.valueOf(header.getPacketId().getValue());
+		Packet packet = switch (packetId) {
+			case CAR_SETUPS -> new PacketCarSetupData().fill(buffer);
+			case CAR_STATUS -> new PacketCarStatusData().fill(buffer);
+			case CAR_TELEMETRY -> new PacketCarTelemetryData().fill(buffer);
+			case EVENT -> new PacketEventData().fill(buffer);
+			case FINAL_CLASSIFICATION -> new PacketFinalClassificationData().fill(buffer);
+			case LAP_DATA -> new PacketLapData().fill(buffer);
+			case LOBBY_INFO -> new PacketLobbyInfoData().fill(buffer);
+			case MOTION -> new PacketMotionData().fill(buffer);
+			case PARTICIPANTS -> new PacketParticipantsData().fill(buffer);
+			case SESSION -> new PacketSessionData().fill(buffer);
+		};
+		return packet.setHeader(header);
     }
 
-    /**
-     * Get the Packet Id from the input buffer containing the packet raw bytes
-     * 
-     * @param buffer buffer with the packet raw bytes
-     * @return Packet Id
-     */
-    private PacketId getPacketId(ByteBuf buffer) {
-        return PacketId.valueOf(buffer.getUnsignedByte(PacketHeader.PACKET_ID_OFFSET));
-    }
 }

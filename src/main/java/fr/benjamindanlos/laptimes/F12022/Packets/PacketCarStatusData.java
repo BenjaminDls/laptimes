@@ -10,6 +10,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.CarStatusData;
+import lombok.Data;
 
 /**
  * Car Status Packet
@@ -18,6 +19,7 @@ import fr.benjamindanlos.laptimes.F12022.Data.CarStatusData;
  * values such as the damage readings on the car.
  * Frequency: Rate as specified in menus
  */
+@Data
 public class PacketCarStatusData extends Packet {
 
     // 1344
@@ -25,17 +27,6 @@ public class PacketCarStatusData extends Packet {
                                     + CarStatusData.SIZE * PacketConstants.CARS;
     
     private List<CarStatusData> carStatusData = new ArrayList<>(PacketConstants.CARS);
-
-    /**
-     * @return Car status data for all cars
-     */
-    public List<CarStatusData> getCarStatusData() {
-        return carStatusData;
-    }
-
-    public void setCarStatusData(List<CarStatusData> carStatusData) {
-        this.carStatusData = carStatusData;
-    }
 
     @Override
     public String toString() {
@@ -51,7 +42,7 @@ public class PacketCarStatusData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             CarStatusData csd = new CarStatusData();
             this.carStatusData.add(csd.fill(buffer));

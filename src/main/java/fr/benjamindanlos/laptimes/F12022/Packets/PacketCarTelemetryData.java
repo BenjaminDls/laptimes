@@ -11,6 +11,7 @@ import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.CarTelemetryData;
 import fr.benjamindanlos.laptimes.F12022.Enums.MfdPanel;
+import lombok.Data;
 
 /**
  * Car Telemetry Packet
@@ -20,6 +21,7 @@ import fr.benjamindanlos.laptimes.F12022.Enums.MfdPanel;
  * application, DRS etc.
  * Frequency: Rate as specified in menus
  */
+@Data
 public class PacketCarTelemetryData extends Packet {
 
     // 1307
@@ -32,66 +34,6 @@ public class PacketCarTelemetryData extends Packet {
     private MfdPanel mfdPanelIndex;
     private MfdPanel mfdPanelIndexSecondaryPlayer;
     private short suggestedGear;
-
-    /**
-     * @return Car telemetry data for all cars
-     */
-    public List<CarTelemetryData> getCarTelemetryData() {
-        return carTelemetryData;
-    }
-
-    public void setCarTelemetryData(List<CarTelemetryData> carTelemetryData) {
-        this.carTelemetryData = carTelemetryData;
-    }
-
-    /**
-     * @return Bit flags specifying which buttons are being pressed currently
-     */
-    public long getButtonStatus() {
-        return buttonStatus;
-    }
-
-    public void setButtonStatus(long buttonStatus) {
-        this.buttonStatus = buttonStatus;
-    }
-
-    /**
-     * @return Index of MFD panel open
-     * 255 = MFD closed
-     * Single player, race – 0 = Car setup, 1 = Pits
-     * 2 = Damage, 3 =  Engine, 4 = Temperatures
-     * May vary depending on game mode
-     */
-    public MfdPanel getMfdPanelIndex() {
-        return mfdPanelIndex;
-    }
-
-    public void setMfdPanelIndex(MfdPanel mfdPanelIndex) {
-        this.mfdPanelIndex = mfdPanelIndex;
-    }
-
-    /**
-     * @return Index of MFD panel open for secondary player
-     */
-    public MfdPanel getMfdPanelIndexSecondaryPlayer() {
-        return mfdPanelIndexSecondaryPlayer;
-    }
-
-    public void setMfdPanelIndexSecondaryPlayer(MfdPanel mfdPanelIndexSecondaryPlayer) {
-        this.mfdPanelIndexSecondaryPlayer = mfdPanelIndexSecondaryPlayer;
-    }
-
-    /**
-     * @return Suggested gear for the player (1-8)
-     * 0 if no gear suggested
-     */
-    public short getSuggestedGear() {
-        return suggestedGear;
-    }
-
-    public void setSuggestedGear(short suggestedGear) {
-        this.suggestedGear = suggestedGear;
-    }
 
     @Override
     public String toString() {
@@ -111,7 +53,7 @@ public class PacketCarTelemetryData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             CarTelemetryData ctd = new CarTelemetryData();
             this.carTelemetryData.add(ctd.fill(buffer));

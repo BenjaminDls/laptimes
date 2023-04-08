@@ -10,6 +10,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.LobbyInfoData;
+import lombok.Data;
 
 /**
  * Lobby Info Packet
@@ -19,6 +20,7 @@ import fr.benjamindanlos.laptimes.F12022.Data.LobbyInfoData;
  * status of each of the participants.
  * Frequency: Two every second when in the lobby
  */
+@Data
 public class PacketLobbyInfoData extends Packet {
 
     // 1169
@@ -28,28 +30,6 @@ public class PacketLobbyInfoData extends Packet {
     
     private short numPlayers;
     private List<LobbyInfoData> lobbyInfoData = new ArrayList<>(PacketConstants.LOBBY_PLAYERS);
-
-    /**
-     * @return Number of players in the lobby data
-     */
-    public short getNumPlayers() {
-        return numPlayers;
-    }
-
-    public void setNumPlayers(short numPlayers) {
-        this.numPlayers = numPlayers;
-    }
-
-    /**
-     * @return Lobby info data for all cars
-     */
-    public List<LobbyInfoData> getLobbyInfoData() {
-        return lobbyInfoData;
-    }
-
-    public void setLobbyInfoData(List<LobbyInfoData> lobbyInfoData) {
-        this.lobbyInfoData = lobbyInfoData;
-    }
 
     @Override
     public String toString() {
@@ -66,7 +46,7 @@ public class PacketLobbyInfoData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
+        //super.fill(buffer);
         this.numPlayers = buffer.readUnsignedByte();
         for (int i = 0; i < this.numPlayers; i++) {
             LobbyInfoData lid = new LobbyInfoData();

@@ -7,9 +7,11 @@ package fr.benjamindanlos.laptimes.F12022.Data;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Enums.SurfaceType;
+import lombok.Data;
 
 import java.util.Arrays;
 
+@Data
 public class CarTelemetryData {
 
     public static final int SIZE = 58;
@@ -98,172 +100,6 @@ public class CarTelemetryData {
             buffer.writeByte(this.surfaceType[j].getValue());
         }
         return buffer;
-    }
-
-    /**
-     * @return Speed of car in kilometres per hour
-     */
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    /**
-     * @return Amount of throttle applied (0.0 to 1.0)
-     */
-    public float getThrottle() {
-        return throttle;
-    }
-
-    public void setThrottle(float throttle) {
-        this.throttle = throttle;
-    }
-
-    /**
-     * @return Steering (-1.0 (full lock left) to 1.0 (full lock right))
-     */
-    public float getSteer() {
-        return steer;
-    }
-
-    public void setSteer(float steer) {
-        this.steer = steer;
-    }
-
-    /**
-     * @return Amount of brake applied (0.0 to 1.0)
-     */
-    public float getBrake() {
-        return brake;
-    }
-
-    public void setBrake(float brake) {
-        this.brake = brake;
-    }
-
-    /**
-     * @return Amount of clutch applied (0 to 100)
-     */
-    public short getClutch() {
-        return clutch;
-    }
-
-    public void setClutch(short clutch) {
-        this.clutch = clutch;
-    }
-
-    /**
-     * @return Gear selected (1-8, N=0, R=-1)
-     */
-    public short getGear() {
-        return gear;
-    }
-
-    public void setGear(short gear) {
-        this.gear = gear;
-    }
-
-    /**
-     * @return Engine RPM
-     */
-    public int getEngineRPM() {
-        return engineRPM;
-    }
-
-    public void setEngineRPM(int engineRPM) {
-        this.engineRPM = engineRPM;
-    }
-
-    /**
-     * @return DRS
-     * 0 = off, 1 = on
-     */
-    public short getDrs() {
-        return drs;
-    }
-
-    public void setDrs(short drs) {
-        this.drs = drs;
-    }
-
-    /**
-     * @return Rev lights indicator (percentage)
-     */
-    public short getRevLightsPercent() {
-        return revLightsPercent;
-    }
-
-    public void setRevLightsPercent(short revLightsPercent) {
-        this.revLightsPercent = revLightsPercent;
-    }
-
-    /**
-     * @return Brakes temperature (celsius)
-     */
-    public int[] getBrakesTemperature() {
-        return brakesTemperature;
-    }
-
-    public void setBrakesTemperature(int[] brakesTemperature) {
-        this.brakesTemperature = brakesTemperature;
-    }
-
-    /**
-     * @return Tyres surface temperature (celsius)
-     */
-    public short[] getTyresSurfaceTemperature() {
-        return tyresSurfaceTemperature;
-    }
-
-    public void setTyresSurfaceTemperature(short[] tyresSurfaceTemperature) {
-        this.tyresSurfaceTemperature = tyresSurfaceTemperature;
-    }
-
-    /**
-     * @return Tyres inner temperature (celsius)
-     */
-    public short[] getTyresInnerTemperature() {
-        return tyresInnerTemperature;
-    }
-
-    public void setTyresInnerTemperature(short[] tyresInnerTemperature) {
-        this.tyresInnerTemperature = tyresInnerTemperature;
-    }
-
-    /**
-     * @return Engine temperature (celsius)
-     */
-    public int getEngineTemperature() {
-        return engineTemperature;
-    }
-
-    public void setEngineTemperature(int engineTemperature) {
-        this.engineTemperature = engineTemperature;
-    }
-
-    /**
-     * @return Tyres pressure (PSI)
-     */
-    public float[] getTyresPressure() {
-        return tyresPressure;
-    }
-
-    public void setTyresPressure(float[] tyresPressure) {
-        this.tyresPressure = tyresPressure;
-    }
-
-    /**
-     * @return Driving surface
-     */
-    public SurfaceType[] getSurfaceType() {
-        return surfaceType;
-    }
-
-    public void setSurfaceType(SurfaceType[] surfaceType) {
-        this.surfaceType = surfaceType;
     }
 
     @Override

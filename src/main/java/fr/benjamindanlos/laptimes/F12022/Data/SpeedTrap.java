@@ -5,7 +5,9 @@
 package fr.benjamindanlos.laptimes.F12022.Data;
 
 import io.netty.buffer.ByteBuf;
+import lombok.Data;
 
+@Data
 public class SpeedTrap {
 
     private short vehicleIdx;
@@ -33,28 +35,6 @@ public class SpeedTrap {
         buffer.writeByte(this.vehicleIdx);
         buffer.writeFloatLE(this.speed);
         return buffer;
-    }
-
-    /**
-     * @return Vehicle index of the vehicle triggering speed trap
-     */
-    public short getVehicleIdx() {
-        return vehicleIdx;
-    }
-
-    public void setVehicleIdx(short vehicleIdx) {
-        this.vehicleIdx = vehicleIdx;
-    }
-
-    /**
-     * @return Top speed achieved in kilometres per hour
-     */
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
     }
 
     @Override

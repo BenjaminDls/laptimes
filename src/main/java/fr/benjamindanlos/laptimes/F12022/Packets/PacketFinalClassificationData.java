@@ -10,6 +10,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.PacketConstants;
 import fr.benjamindanlos.laptimes.F12022.Data.FinalClassificationData;
+import lombok.Data;
 
 /**
  * Final Classification Packet
@@ -20,6 +21,7 @@ import fr.benjamindanlos.laptimes.F12022.Data.FinalClassificationData;
  * the final frame because of network delay.
  * Frequency: Once at the end of a race
  */
+@Data
 public class PacketFinalClassificationData extends Packet {
 
     // 839
@@ -29,28 +31,6 @@ public class PacketFinalClassificationData extends Packet {
     
     private short numCars;
     private List<FinalClassificationData> finalClassificationData = new ArrayList<>(PacketConstants.CARS);
-
-    /**
-     * @return Number of cars in the final classification
-     */
-    public short getNumCars() {
-        return numCars;
-    }
-
-    public void setNumCars(short numCars) {
-        this.numCars = numCars;
-    }
-
-    /**
-     * @return Final classification data for all cars
-     */
-    public List<FinalClassificationData> getFinalClassificationData() {
-        return finalClassificationData;
-    }
-
-    public void setFinalClassificationData(List<FinalClassificationData> finalClassificationData) {
-        this.finalClassificationData = finalClassificationData;
-    }
 
     @Override
     public String toString() {
@@ -67,7 +47,6 @@ public class PacketFinalClassificationData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-        super.fill(buffer);
         this.numCars = buffer.readUnsignedByte();
         for (int i = 0; i < this.numCars; i++) {
             FinalClassificationData fcd = new FinalClassificationData();

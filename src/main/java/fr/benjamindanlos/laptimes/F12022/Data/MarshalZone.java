@@ -2,7 +2,9 @@ package fr.benjamindanlos.laptimes.F12022.Data;
 
 import io.netty.buffer.ByteBuf;
 import fr.benjamindanlos.laptimes.F12022.Enums.ZoneFlag;
+import lombok.Data;
 
+@Data
 public class MarshalZone {
 
     public static final int SIZE = 5;
@@ -32,30 +34,6 @@ public class MarshalZone {
         buffer.writeFloatLE(this.zoneStart);
         buffer.writeByte(this.zoneFlag.getValue());
         return buffer;
-    }
-
-    /**
-     * @return Zone start
-     * Fraction (0..1) of way through the lap the marshal zone starts
-     */
-    public float getZoneStart() {
-        return zoneStart;
-    }
-
-    public void setZoneStart(float zoneStart) {
-        this.zoneStart = zoneStart;
-    }
-
-    /**
-     * @return Zone flag
-     * -1 = invalid/unknown, 0 = none, 1 = green, 2 = blue, 3 = yellow, 4 = red
-     */
-    public ZoneFlag getZoneFlag() {
-        return zoneFlag;
-    }
-
-    public void setZoneFlag(ZoneFlag zoneFlag) {
-        this.zoneFlag = zoneFlag;
     }
 
     @Override

@@ -10,7 +10,9 @@ import fr.benjamindanlos.laptimes.F12022.PacketUtils;
 import fr.benjamindanlos.laptimes.F12022.Enums.Driver;
 import fr.benjamindanlos.laptimes.F12022.Enums.Nationality;
 import fr.benjamindanlos.laptimes.F12022.Enums.Team;
+import lombok.Data;
 
+@Data
 public class ParticipantData {
 
     public static final int SIZE = 54;
@@ -57,84 +59,6 @@ public class ParticipantData {
         PacketUtils.writeString(this.name, buffer, ParticipantData.NAME_LENGTH);
         buffer.writeByte(this.yourTelemetry);
         return buffer;
-    }
-
-    /**
-     * @return Whether the vehicle is AI (1) or Human (0) controlled
-     */
-    public short getAiControlled() {
-        return aiControlled;
-    }
-
-    public void setAiControlled(short aiControlled) {
-        this.aiControlled = aiControlled;
-    }
-
-    /**
-     * @return Driver Id
-     */
-    public Driver getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(Driver driverId) {
-        this.driverId = driverId;
-    }
-
-    /**
-     * @return Team Id
-     */
-    public Team getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(Team teamId) {
-        this.teamId = teamId;
-    }
-
-    /**
-     * @return Race number of the car
-     */
-    public short getRaceNumber() {
-        return raceNumber;
-    }
-
-    public void setRaceNumber(short raceNumber) {
-        this.raceNumber = raceNumber;
-    }
-
-    /**
-     * @return Nationality of the driver
-     */
-    public Nationality getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(Nationality nationality) {
-        this.nationality = nationality;
-    }
-
-    /**
-     * @return Name of participant in UTF-8 format – null terminated
-     * Will be truncated with … (U+2026) if too long
-     */
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return The player's UDP setting, 0 = restricted, 1 = public
-     */
-    public short getYourTelemetry() {
-        return yourTelemetry;
-    }
-
-    public void setYourTelemetry(short yourTelemetry) {
-        this.yourTelemetry = yourTelemetry;
     }
 
     @Override

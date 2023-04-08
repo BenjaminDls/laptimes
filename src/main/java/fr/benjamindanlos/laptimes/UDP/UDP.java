@@ -17,10 +17,9 @@ public class UDP {
 		this.bootstrap.group(group)
 				.channel(NioDatagramChannel.class)
 				.option(ChannelOption.SO_BROADCAST, true)
-				.handler( new ChannelInitializer<Channel>() {
+				.handler( new ChannelInitializer<>() {
 					@Override
-					protected void initChannel(Channel channel)
-							throws Exception {
+					protected void initChannel(Channel channel){
 						ChannelPipeline pipeline = channel.pipeline();
 						for(ChannelHandler handler : handlers){
 							pipeline.addLast(handler);
@@ -28,18 +27,10 @@ public class UDP {
 					}
 				} )
 				.localAddress(address);
-/*		Channel channel = bind();
-		try {
-			channel.closeFuture().sync();
-		}
-		catch (InterruptedException e){
-			System.out.println(e);
-			stop();
-		}*/
 	}
 
 	public Channel bind() {
-		System.out.println("Listening NOW !!");
+		System.out.println("Listening on "+bootstrap.config().localAddress());
 		return this.bootstrap.bind().syncUninterruptibly().channel();
 	}
 

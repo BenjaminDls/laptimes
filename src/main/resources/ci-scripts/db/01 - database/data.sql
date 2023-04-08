@@ -1,4 +1,4 @@
---Francois
+-- Francois
 
 insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber, date) value
     ('François', 'karting.capmalo', 'kart', 'IRL', 51.367, '51.367', '5', '2023-05-04T20:50:00.000');
@@ -25,7 +25,7 @@ insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber
 insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber, date) value
     ('François', 'karting.capmalo', 'kart', 'IRL', 47.234, '47.234', '5', (select max(date) + INTERVAL 47.287 SECOND from laptime l2 where l2.driver='François' group by l2.driver));
 
---Jeremy
+-- Jeremy
 insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber, date) value
     ('Jeremy', 'karting.capmalo', 'kart', 'IRL', 69.718, '69.718', '16', '2023-05-04T20:50:00.000');
 insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber, date) value
@@ -47,7 +47,7 @@ insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber
 insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber, date) value
     ('Jeremy', 'karting.capmalo', 'kart', 'IRL', 51.431, '51.431', '16', (select max(date) + INTERVAL 51.324 SECOND from laptime l2 where l2.driver='Jeremy' group by l2.driver));
 
---Benjamin
+-- Benjamin
 insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber, date) value
     ('Benjamin', 'karting.capmalo', 'kart', 'IRL', 83.589, '83.589', '10', '2023-05-04T20:50:00.000');
 insert into laptime (driver, track, car, game, laptime, laptimeString, carNumber, date) value

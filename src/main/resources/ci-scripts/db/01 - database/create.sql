@@ -1,11 +1,14 @@
 CREATE DATABASE 'laptimes';
-CREATE DATABASE 'laptimes_dev';
+-- CREATE DATABASE 'laptimes_dev';
 
-CREATE USER IF NOT EXISTS 'laptimesAppUser'@localhost IDENTIFIED BY 'ahC#vjz!@LcS74';
-GRANT ALL PRIVILEGES ON laptimes.* TO 'laptimesAppUser'@localhost IDENTIFIED BY 'ahC#vjz!@LcS74';
-GRANT ALL PRIVILEGES ON laptimes_dev.* TO 'laptimesAppUser'@localhost IDENTIFIED BY 'ahC#vjz!@LcS74';
+CREATE USER IF NOT EXISTS ''@localhost IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON laptimes.* TO ''@localhost IDENTIFIED BY '';
+-- GRANT ALL PRIVILEGES ON laptimes_dev.* TO ''@localhost IDENTIFIED BY '';
 
 -- CREATE TABLES
+
+use laptimes;
+-- use laptimes_dev;
 
 create table if not exists laptime
 (
@@ -19,4 +22,4 @@ create table if not exists laptime
     carNumber varchar(20),
     date datetime,
     constraint unique unique_driver_track_car_game_time(driver, track, car, game, laptime)
-)
+);

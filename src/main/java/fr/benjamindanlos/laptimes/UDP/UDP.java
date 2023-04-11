@@ -5,8 +5,11 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 import jakarta.annotation.PreDestroy;
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.InetSocketAddress;
 
+@Slf4j
 public class UDP {
 	private final EventLoopGroup group;
 	private final Bootstrap bootstrap;
@@ -30,7 +33,7 @@ public class UDP {
 	}
 
 	public Channel bind() {
-		System.out.println("Listening on "+bootstrap.config().localAddress());
+		log.info("Listening on "+bootstrap.config().localAddress());
 		return this.bootstrap.bind().syncUninterruptibly().channel();
 	}
 

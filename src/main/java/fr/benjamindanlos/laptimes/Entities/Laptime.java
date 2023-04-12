@@ -14,7 +14,7 @@ public class Laptime {
 	@Id
 	@JsonIgnore
 	@Column(nullable = false, name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(name = "driver", nullable = false)
@@ -30,7 +30,7 @@ public class Laptime {
 	private String track;
 
 	@Column(nullable = false, name = "laptime")
-	private int laptime;
+	private float laptime;
 
 	@Column(nullable = false, name = "laptimeString")
 	private String laptimeString;

@@ -18,13 +18,13 @@ public class F12022Listener {
 
 	@PostConstruct
 	public void init() {
-		new Thread(()->{
+		/*new Thread(()->{
 			UDP udpListener = new UDP(new InetSocketAddress(address, port), new PacketEventDecoder(), new PacketEventHandler());
 			try {
 				udpListener.bind().closeFuture().sync();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-		}).start();
+		}).start();*/
 	}
 }

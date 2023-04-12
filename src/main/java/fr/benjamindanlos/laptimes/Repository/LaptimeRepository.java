@@ -19,25 +19,49 @@ public interface LaptimeRepository extends JpaRepository<Laptime, Integer>{
 			"        and l2.track = :track " +
 			"      group by l2.laptime " +
 			"      having l2.laptime = min(l2.laptime) " +
-			") l2 on l.id=l2.id", nativeQuery = true)
+			") l2 on l.id=l2.id limit 1", nativeQuery = true)
 	Laptime findBestByDriverAndTrack(@Param("driver") String driver, @Param("track") String track);
 
-	@Query(value = "select l.* from laptime l\n" +
-			"join (select id\n" +
-			"      from laptime l2\n" +
-			"      where l2.driver = :driver\n" +
-			"      group by l2.track\n" +
-			"      having min(l2.laptime)\n" +
+	@Query(value = "select l.* from laptime l " +
+			"join (select id " +
+			"      from laptime l2 " +
+			"      where l2.driver = :driver " +
+			"      group by l2.track " +
+			"      having min(l2.laptime) " +
 			") l2 on l.id=l2.id", nativeQuery = true)
 	List<Laptime> findAllBestByDriver(@Param("driver") String driver);
 
-	@Query(value = "select l.* from laptime l\n" +
-			"join (select id\n" +
-			"      from laptime l2\n" +
-			"      where l2.track = :track\n" +
-			"      group by l2.driver\n" +
-			"      having min(l2.laptime)\n" +
+	@Query(value = "select l.* from laptime l " +
+			"join (select id " +
+			"      from laptime l2 " +
+			"      where l2.track = :track " +
+			"      group by l2.driver " +
+			"      having min(l2.laptime) " +
 			") l2 on l.id=l2.id", nativeQuery = true)
 	List<Laptime> findAllBestByTrack(@Param("track") String track);
 
+
+	@Query(value = "select l.* from laptime l " +
+			"where driver=:driver " +
+			"and game=:game " +
+			"and track=:track " +
+			"and car=:car " +
+			"group by l.driver, l.game, l.track, l.car " +
+			"having max(l.date) limit 1", nativeQuery = true)
+	Laptime findLastByDriverAndGameAndTrackAndCar(@Param("driver") String driver,
+											  @Param("game") String game,
+											  @Param("track") String track,
+											  @Param("car") String car);
+
+	@Query(value = "select l.* from laptime l " +
+			"where driver=:driver " +
+			"and game=:game " +
+			"and track=:track " +
+			"and car=:car " +
+			"and laptime=cast(:laptime as float)" +
+			"limit 1", nativeQuery = true)
+	Laptime findByDriverAndGameAndTrackAndCarAndLaptime(@Param("driver") String driver,
+											  @Param("game") String game,
+											  @Param("track") String track,
+											  @Param("car") String car);
 }

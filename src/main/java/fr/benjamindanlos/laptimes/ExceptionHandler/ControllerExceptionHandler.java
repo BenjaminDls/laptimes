@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-class GlobalDefaultExceptionHandler {
+class ControllerExceptionHandler {
 	@ExceptionHandler(value = LaptimesException.class)
 	public ResponseEntity<ErrorDTO> handleExceptions(LaptimesException e) {
 		ErrorDTO dto = new ErrorDTO(e.getMessage(), e.getHttpCode().value());

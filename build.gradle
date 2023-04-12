@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'fr.benjamindanlos'
-version = "0.1.0"
+version = "0.2.0"
 sourceCompatibility = '17'
 
 configurations {
@@ -32,6 +32,7 @@ dependencies {
 	implementation "org.springframework.cloud:spring-cloud-config-server"
 	implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
 	implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	compileOnly "org.projectlombok:lombok"
 	runtimeOnly "org.mariadb.jdbc:mariadb-java-client"
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"

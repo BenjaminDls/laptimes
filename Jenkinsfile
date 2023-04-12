@@ -20,7 +20,7 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                 script{
-                    def version_value = sh(returnStdout: true, script: "cat build.gradle | grep -o 'version = [^,]*'").trim()
+                    def version_value = sh(returnStdout: true, script: "cat build.gradle | grep -o 'version=[^,]*'").trim()
                     def version = version_value.split(/=/)[1]
                     sh "cp build/libs/laptimes.${version}.jar build/libs/laptimes-latest.jar"
                 }

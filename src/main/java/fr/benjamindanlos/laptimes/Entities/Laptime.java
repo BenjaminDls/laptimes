@@ -42,4 +42,21 @@ public class Laptime {
 	@Column(nullable = false, name = "date")
 	private LocalDateTime date;
 
+	@Override
+	public String toString() {
+		return "Laptime{" +
+				"driver='" + driver + '\'' +
+				", game='" + game + '\'' +
+				", car='" + car + '\'' +
+				", track='" + track + '\'' +
+				", laptime=" + laptime +
+				", laptimeString='" + laptimeString + '\'' +
+				", carNumber='" + carNumber + '\'' +
+				", date=" + date +
+				'}';
+	}
+
+	public String toDiscordString() {
+		return driver + " did " + laptimeString + " at " + track + " driving " + car + " on " + game;
+	}
 }

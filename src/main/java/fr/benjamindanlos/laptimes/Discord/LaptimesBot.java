@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
-
 @Slf4j
 @Service
 public class LaptimesBot {
@@ -29,73 +27,137 @@ public class LaptimesBot {
 	@Autowired
 	private GatewayDiscordClient gatewayDiscordClient;
 
+	@Autowired
+	private CommandHandler commandHandler;
+
 	@PostConstruct
 	public void init(){
 		final ApplicationService applicationService = restClient.getApplicationService();
 
+
+		/*applicationService.getGlobalApplicationCommands(BOTID).flatMap(cmd -> {
+			if (cmd.name().startsWith("seach")||"test".equals(cmd.name())) {
+				return applicationService.deleteGlobalApplicationCommand(BOTID, cmd.id().asLong());
+			}else{
+				return Mono.empty();
+			}
+		}).subscribe();*/
+
+		registerCommandBestDriverLapCarTrackGame(applicationService);
+		registerCommandLeaderBoardByCar(applicationService);
+		registerCommandLeaderBoard(applicationService);
+
+		gatewayDiscordClient.on(ChatInputInteractionEvent.class, this::handleCommand)
+				.subscribe();
+		/*gatewayDiscordClient.on(LaptimeEvent.class, this::handleNewLaptime)
+				.subscribe();
+
+		log.info("raising");
+		Mono.just(new LaptimeEvent(gatewayDiscordClient, ShardInfo.create(1,1), new Laptime()));*/
+
+	}
+
+	private void registerCommandBestDriverLapCarTrackGame(ApplicationService applicationService){
 		// Build our command's definition
-		ApplicationCommandRequest greetCmdRequest = ApplicationCommandRequest.builder()
-				.name("test")
-				.description("Simple parsing test")
+		ApplicationCommandRequest cmdBestDriverLapCarTrackGame = ApplicationCommandRequest.builder()
+				.name("search")
+				.description("Search the best track's laptime of a driver with a specified car for a game")
 				.addOption(ApplicationCommandOptionData.builder()
 						.name("driver")
-						.description("Driver criteria")
+						.description("Driver name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("track")
-						.description("Track criteria")
+						.description("Track name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("car")
-						.description("Car criteria")
+						.description("Car name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("game")
-						.description("Game criteria")
+						.description("Game name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
 						.build()
 				).build();
 		// Create the command with Discord
-
-		applicationService.createGlobalApplicationCommand(BOTID, greetCmdRequest)
-				.doOnNext(ignore -> log.info("Successfully registered Global Commands"))
-				.doOnError(e -> log.error("Failed to register global commands", e))
+		applicationService.createGlobalApplicationCommand(BOTID, cmdBestDriverLapCarTrackGame)
+				.doOnNext(ignore -> log.info("Successfully registered searchBest command"))
+				.doOnError(e -> log.error("Failed to register searchBest command", e))
 				.subscribe();
-
-		gatewayDiscordClient.on(ChatInputInteractionEvent.class, this::handleCommand)
-				.doOnNext(i -> log.info("okok"))
-				.doOnError(e -> log.error("???????", e))
-				.subscribe();
-		/*.getEventDispatcher().on(ChatInputInteractionEvent.class)
-				.flatMap(event -> Mono.justOrEmpty(event.toString())
-				.flatMap(content -> {
-					BotCommand command = commandParser.decomposeCommand(content);
-					handleCommand(event, command);
-					return Mono.empty();
-				})).subscribe();*/
 	}
 
+	private void registerCommandLeaderBoard(ApplicationService applicationService){
+		// Build our command's definition
+		ApplicationCommandRequest cmdLeaderboard = ApplicationCommandRequest.builder()
+				.name("leaderboard")
+				.description("Display all the fastest laps on a game's track by driver regardless of the car")
+				.addOption(ApplicationCommandOptionData.builder()
+						.name("track")
+						.description("Track name")
+						.type(ApplicationCommandOption.Type.STRING.getValue())
+						.required(true)
+						.build()
+				).addOption(ApplicationCommandOptionData.builder()
+						.name("game")
+						.description("Game name")
+						.type(ApplicationCommandOption.Type.STRING.getValue())
+						.required(true)
+						.build()
+				).build();
+		// Create the command with Discord
+		applicationService.createGlobalApplicationCommand(BOTID, cmdLeaderboard)
+				.doOnNext(ignore -> log.info("Successfully registered leaderboard command"))
+				.doOnError(e -> log.error("Failed to register leaderboard command", e))
+				.subscribe();
+	}
+
+	private void registerCommandLeaderBoardByCar(ApplicationService applicationService){
+		// Build our command's definition
+		ApplicationCommandRequest cmdLeaderboardByCar = ApplicationCommandRequest.builder()
+				.name("leaderboardbycar")
+				.description("Display all the fastest laps on a game's track by driver with a specific car")
+				.addOption(ApplicationCommandOptionData.builder()
+						.name("track")
+						.description("Track name")
+						.type(ApplicationCommandOption.Type.STRING.getValue())
+						.required(true)
+						.build()
+				).addOption(ApplicationCommandOptionData.builder()
+						.name("car")
+						.description("Car name")
+						.type(ApplicationCommandOption.Type.STRING.getValue())
+						.required(true)
+						.build()
+				).addOption(ApplicationCommandOptionData.builder()
+						.name("game")
+						.description("Game name")
+						.type(ApplicationCommandOption.Type.STRING.getValue())
+						.required(true)
+						.build()
+				).build();
+		// Create the command with Discord
+		applicationService.createGlobalApplicationCommand(BOTID, cmdLeaderboardByCar)
+				.doOnNext(ignore -> log.info("Successfully registered leaderboardByCar command"))
+				.doOnError(e -> log.error("Failed to register leaderboardByCar command", e))
+				.subscribe();
+	}
 
 	private Mono<Void> handleCommand(ChatInputInteractionEvent event){
-		BotCommand command = new BotCommand("/test", new HashMap<>());//commandParser.decomposeCommand(event.getInteraction().toString());
-		StringBuilder msg = new StringBuilder();
-		command.setCommand(event.getCommandName());
-
-		command.getArgs().put("driver", event.getOption("driver").get().getValue().get().asString());
-		command.getArgs().put("track", event.getOption("track").get().getValue().get().asString());
-		command.getArgs().put("car",event.getOption("car").get().getValue().get().asString());
-		command.getArgs().put("game",event.getOption("game").get().getValue().get().asString());
-
-		msg.append("Received command \""+command.getCommand()+"\" with args : ");
-		command.getArgs().forEach((key, value)-> msg.append("\""+key+":"+value+"\""));
-		return event.reply(msg.toString());//.withEmbeds();
-		//return Mono.empty();
+		String r = commandHandler.handle(event.getCommandName(), event);
+		return event.reply(r);
 	}
+
+	/*private Mono<Void> handleNewLaptime(LaptimeEvent event){
+		log.info("raised");
+		return Mono.empty();
+	}*/
+
 }

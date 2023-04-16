@@ -34,7 +34,7 @@ public class LaptimesBot {
 	public void init(){
 		final ApplicationService applicationService = restClient.getApplicationService();
 
-
+		//code to delete a command
 		/*applicationService.getGlobalApplicationCommands(BOTID).flatMap(cmd -> {
 			if (cmd.name().startsWith("seach")||"test".equals(cmd.name())) {
 				return applicationService.deleteGlobalApplicationCommand(BOTID, cmd.id().asLong());
@@ -43,10 +43,13 @@ public class LaptimesBot {
 			}
 		}).subscribe();*/
 
+		//Register commands
 		registerCommandBestDriverLapCarTrackGame(applicationService);
 		registerCommandLeaderBoardByCar(applicationService);
 		registerCommandLeaderBoard(applicationService);
+		registerCommandEndSession(applicationService);
 
+		//Register command handlers (all chat commands go to one handler that dispatches the execution)
 		gatewayDiscordClient.on(ChatInputInteractionEvent.class, this::handleCommand)
 				.subscribe();
 		/*gatewayDiscordClient.on(LaptimeEvent.class, this::handleNewLaptime)
@@ -147,6 +150,25 @@ public class LaptimesBot {
 		applicationService.createGlobalApplicationCommand(BOTID, cmdLeaderboardByCar)
 				.doOnNext(ignore -> log.info("Successfully registered leaderboardByCar command"))
 				.doOnError(e -> log.error("Failed to register leaderboardByCar command", e))
+				.subscribe();
+	}
+
+	private void registerCommandEndSession(ApplicationService applicationService){
+		// Build our command's definition
+		ApplicationCommandRequest cmdEndSession = ApplicationCommandRequest.builder()
+				.name("endsession")
+				.description("Display a summary of the fastest laps of a session")
+				.addOption(ApplicationCommandOptionData.builder()
+						.name("day")
+						.description("Session's day. Default : today.")
+						.type(ApplicationCommandOption.Type.STRING.getValue())
+						.required(false)
+						.build()
+				).build();
+		// Create the command with Discord
+		applicationService.createGlobalApplicationCommand(BOTID, cmdEndSession)
+				.doOnNext(ignore -> log.info("Successfully registered endSession command"))
+				.doOnError(e -> log.error("Failed to register endSession command", e))
 				.subscribe();
 	}
 

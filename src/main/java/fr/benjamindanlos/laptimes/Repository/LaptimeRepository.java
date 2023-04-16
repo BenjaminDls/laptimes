@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -73,5 +74,20 @@ public interface LaptimeRepository extends JpaRepository<Laptime, Integer>{
 											  @Param("game") String game,
 											  @Param("track") String track,
 											  @Param("car") String car);
+
+
+	@Query(value = "select l.* " +
+			"from laptime l " +
+			"where date between :date and :date + interval '1' day " +
+			"group by l.driver, l.track " +
+			"having min(l.laptime) " +
+			"order by game, track, laptime ", nativeQuery = true)
+	List<Laptime> findAllBestByDayGroupByTrackAndDriver(@Param("date") LocalDate date);
+
+	@Query(value = "select l.* " +
+			"from laptime l " +
+			"where date between :date and :date + interval '1' day " +
+			"order by game, track, driver, car, laptime ", nativeQuery = true)
+	List<Laptime> findAllBySession(@Param("date") LocalDate date);
 
 }

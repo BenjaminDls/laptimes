@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Slf4j
 @Service
@@ -65,7 +66,7 @@ public class DataHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 		entity.setTrack(lapdataExtended.getTrackName());
 		entity.setLaptime(lapdataExtended.getTime()/1000.0f);
 		entity.setLaptimeString(Tools.laptimeToString(entity.getLaptime()));
-		entity.setDate(LocalDateTime.now());
+		entity.setDate(LocalDateTime.now(ZoneOffset.UTC));
 
 		try{
 			laptimeRepository.save(entity);

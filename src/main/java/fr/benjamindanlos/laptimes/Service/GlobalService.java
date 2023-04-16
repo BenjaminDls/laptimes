@@ -3,10 +3,10 @@ package fr.benjamindanlos.laptimes.Service;
 import fr.benjamindanlos.laptimes.Entities.Laptime;
 import fr.benjamindanlos.laptimes.Repository.LaptimeRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -15,6 +15,14 @@ public class GlobalService {
 	@Autowired
 	private LaptimeRepository laptimeRepository;
 
+	/**
+	 * Search for the best laptime
+	 * @param driverName driver to search
+	 * @param trackName track to search
+	 * @param carName car to search
+	 * @param gameName game to search
+	 * @return the best laptime matching the criteria
+	 */
 	public Laptime search(String driverName, String trackName, String carName, String gameName){
 		try {
 			log.debug("Searching for "+driverName+"/"+trackName+"/"+carName+"/"+gameName);
@@ -29,6 +37,12 @@ public class GlobalService {
 		}
 	}
 
+	/**
+	 * lists the best laptimes on a track of a game
+	 * @param trackName track name
+	 * @param gameName game name
+	 * @return list of best laptimes
+	 */
 	public List<Laptime> generateLeaderBoard(String trackName, String gameName){
 		try{
 			log.debug("Generating leaderboard for "+trackName+"/"+gameName);
@@ -43,12 +57,57 @@ public class GlobalService {
 		}
 	}
 
+	/**
+	 * lists the best laptimes on a track of a game limited to one car
+	 * @param trackName track name
+	 * @param gameName game name
+	 * @param carName car name
+	 * @return list of best laptimes with the car
+	 */
 	public List<Laptime> generateLeaderBoardByCar(String trackName, String gameName, String carName){
 		try{
 			log.debug("Generating leaderboard for "+trackName+"/"+gameName);
 			List<Laptime> laptimes = laptimeRepository.findAllBestByTrackAndGameAndCar(trackName, gameName, carName);
 			log.debug("Found "+laptimes.size()+" entries");
 			return laptimes;
+		}
+		catch (Exception e){
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * get all the best laptimes of a session (=day)
+	 * @param day day of the session
+	 * @return list of best laptimes for this day ordered
+	 */
+	public List<Laptime> sessionBests(LocalDate day){
+		try{
+			log.debug("Getting "+day+"'s session bests");
+			List<Laptime> times = laptimeRepository.findAllBestByDayGroupByTrackAndDriver(day);
+			log.debug("Found "+times.size()+" entries");
+			return times;
+		}
+		catch (Exception e){
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * get all laptimes of a day
+	 * @param day day
+	 * @return list of laptimes ordered
+	 */
+	public List<Laptime> allLaptimesOfSession(LocalDate day){
+		try{
+			log.debug("Getting all times of session :"+day);
+			List<Laptime> times = laptimeRepository.findAllBySession(day);
+			log.debug("Found "+times.size()+" entries");
+			return times;
 		}
 		catch (Exception e){
 			log.error(e.getMessage());

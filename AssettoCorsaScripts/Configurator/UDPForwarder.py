@@ -153,7 +153,7 @@ class SssConnection:
                     lapdataExtended.identifier = 2
                     print("received lapdata : %s" % lapdataExtended)
                     sendData: bytes = lapdataExtended.toBytes()
-                    self.sock.sendto(sendData.decode('utf-16').encode('utf-16'), (self.serverIp, self.serverPort))
+                    self.sock.sendto(sendData, (self.serverIp, self.serverPort))
                 else:
                     print("waiting to receive telemetry")
                     data = self.sock.recv(TelemetryData.size)
@@ -169,6 +169,8 @@ class SssConnection:
             gameIp=getLocalIp()
         self.gameIp=gameIp
         self.gamePort=9996
+        self.serverIp = self.config[keyIp]
+        self.serverPort = self.config[keyPort]
         print(self.config)
 
 

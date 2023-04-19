@@ -1,34 +1,28 @@
-/*
- * Copyright Paolo Patierno.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 package fr.benjamindanlos.laptimes.F12022.Decoder;
 
-import fr.benjamindanlos.laptimes.F12022.Enums.PacketId;
+import fr.benjamindanlos.laptimes.F12022.Handler.PacketEventHandler;
 import fr.benjamindanlos.laptimes.F12022.Packets.PacketHeader;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageDecoder;
-import fr.benjamindanlos.laptimes.F12022.Packets.Packet;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.List;
 
+@Slf4j
+@Service
 public class PacketEventDecoder extends MessageToMessageDecoder<DatagramPacket> {
 
-    PacketDecoder packetDecoder = new PacketDecoder();
+	@Autowired
+	private PacketEventHandler handler;
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket, List<Object> list) throws Exception {
         ByteBuf buffer = datagramPacket.content();
-		Packet packet = packetDecoder.decodeUsingHeader(buffer);
-		if(packet!=null){
-			System.out.println(packet.getClass());
-			System.out.println(PacketId.valueOf(packet.getHeader().getPacketId().getValue()));
-			list.add(packet);
-		}
+		PacketHeader packetHeader = new PacketHeader().fill(buffer);
+		handler.handlePacket(packetHeader, buffer);
     }
 }

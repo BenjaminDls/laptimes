@@ -1,27 +1,51 @@
-/*
- * Copyright Paolo Patierno.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 package fr.benjamindanlos.laptimes.F12022.Handler;
 
-import fr.benjamindanlos.laptimes.F12022.Packets.Packet;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import fr.benjamindanlos.laptimes.F12022.Packets.PacketHeader;
+import fr.benjamindanlos.laptimes.F12022.Packets.PacketLapData;
+import io.netty.buffer.ByteBuf;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
+@Slf4j
+@Service
+public class PacketEventHandler {
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
-	{
-        cause.printStackTrace();
-        ctx.close();
-    }
+	@Autowired
+	private LapdataHandler lapdataHandler;
 
-    @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Packet decodedPacket) throws Exception
-	{
-		//do stuff with the data
-		System.out.println("received packet : "+ decodedPacket.toString());
-    }
+	public void handlePacket(PacketHeader header, ByteBuf buffer){
+		if(header==null||header.getPacketId()==null){
+			return;
+		}
+		switch (header.getPacketId()) {
+			case CAR_SETUPS -> handleSetupData(buffer, header);
+			case CAR_STATUS -> handleStatusData(buffer, header);
+			case CAR_TELEMETRY -> handleTelemetryData(buffer, header);
+			case EVENT -> handleEventData(buffer, header);
+			case FINAL_CLASSIFICATION -> handleFinalClassificationData(buffer, header);
+			case LAP_DATA -> handleLapData(buffer, header);
+			case LOBBY_INFO -> handleLobbyInfoData(buffer, header);
+			case MOTION -> handleMotionData(buffer, header);
+			case PARTICIPANTS -> handleParticipantsData(buffer, header);
+			case SESSION -> handleSessionData(buffer, header);
+		}
+	}
+
+	private void handleSetupData(ByteBuf buffer, PacketHeader header){}
+	private void handleStatusData(ByteBuf buffer, PacketHeader header){}
+	private void handleTelemetryData(ByteBuf buffer, PacketHeader header){}
+	private void handleEventData(ByteBuf buffer, PacketHeader header){}
+	private void handleFinalClassificationData(ByteBuf buffer, PacketHeader header){}
+	private void handleLapData(ByteBuf buffer, PacketHeader header){
+		PacketLapData packetLapData = new PacketLapData();
+		packetLapData.setHeader(header);
+		packetLapData.fill(buffer);
+		lapdataHandler.handle(packetLapData);
+	}
+	private void handleLobbyInfoData(ByteBuf buffer, PacketHeader header){}
+	private void handleMotionData(ByteBuf buffer, PacketHeader header){}
+	private void handleParticipantsData(ByteBuf buffer, PacketHeader header){}
+	private void handleSessionData(ByteBuf buffer, PacketHeader header){}
 
 }

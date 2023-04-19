@@ -1,11 +1,7 @@
-/*
- * Copyright Paolo Patierno.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 package fr.benjamindanlos.laptimes.F12022;
 
 import java.math.BigInteger;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import io.netty.buffer.ByteBuf;
@@ -28,7 +24,7 @@ public class PacketUtils {
         // if the string is not null terminated, just read all the characters
         result = result == -1 ? maxLength : result;
         ByteBuf b = buffer.readBytes(result);
-        String s = b.toString(Charset.forName("UTF-8"));
+        String s = b.toString(StandardCharsets.UTF_8);
         b.release();
         buffer.skipBytes(maxLength - result);
         return s;

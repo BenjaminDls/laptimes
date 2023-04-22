@@ -20,6 +20,7 @@ public class PacketEventDecoder extends MessageToMessageDecoder<DatagramPacket> 
     protected void decode(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket, List<Object> list) throws Exception {
         ByteBuf buffer = datagramPacket.content();
 		int packetFormat = buffer.readUnsignedShortLE();
+		buffer.resetReaderIndex();
 		switch (packetFormat){
 			case 2022 -> f12022handler.handlePacket(buffer);
 			default -> log.warn("Received a packet at {} format, it is not yet implemented.", packetFormat);

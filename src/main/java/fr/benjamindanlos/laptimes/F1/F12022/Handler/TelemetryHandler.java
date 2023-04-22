@@ -22,11 +22,11 @@ public class TelemetryHandler extends Handler {
 	public void handle(PacketCarTelemetryData packetCarTelemetryData){
 		BigInteger player = packetCarTelemetryData.getHeader().getSessionUid();
 		// update map to know this player is active
-		getPlayerLastData().put(player, LocalDateTime.now(ZoneOffset.UTC));
+		playerLastData.put(player, LocalDateTime.now(ZoneOffset.UTC));
 
 		int index = packetCarTelemetryData.getHeader().getPlayerCarIndex();
 		int speed = packetCarTelemetryData.getCarTelemetryData().get(index).getSpeed();
-		log.info("Player {} : {}km/h", player, speed);
+		//log.info("Player {} : {}km/h", player, speed);
 	}
 
 }

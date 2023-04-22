@@ -113,8 +113,7 @@ public class PacketSessionData extends Packet {
 
     @Override
     public Packet fill(ByteBuf buffer) {
-		//super.fill(buffer);
-        this.weather = Weather.valueOf(buffer.readUnsignedByte());
+		this.weather = Weather.valueOf(buffer.readUnsignedByte());
         this.trackTemperature = buffer.readByte();
         this.airTemperature = buffer.readByte();
         this.totalLaps = buffer.readUnsignedByte();

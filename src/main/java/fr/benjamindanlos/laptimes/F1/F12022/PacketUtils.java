@@ -3,6 +3,8 @@ package fr.benjamindanlos.laptimes.F1.F12022;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.netty.buffer.ByteBuf;
 
@@ -79,4 +81,13 @@ public class PacketUtils {
                     add(BigInteger.valueOf(Integer.toUnsignedLong(lower)));
         }
     }
+
+	public static String trim(String input){
+		Pattern pattern = Pattern.compile("([\\w\\-]+)");
+		Matcher matcher = pattern.matcher(input);
+		if(matcher.find())
+			return matcher.group(0);
+		else
+			return input;
+	}
 }

@@ -32,7 +32,9 @@ public class ParticipantData {
     public ParticipantData fill(ByteBuf buffer) {
         this.aiControlled = buffer.readUnsignedByte();
         this.driverId = Driver.valueOf(PacketConfig.getSeason(), buffer.readUnsignedByte());
-        this.teamId = Team.valueOf(PacketConfig.getSeason(), buffer.readUnsignedByte());
+        int networkid = buffer.readUnsignedByte();//network id
+		this.teamId = Team.valueOf(PacketConfig.getSeason(), buffer.readUnsignedByte());
+		int myteam = buffer.readUnsignedByte();//myteam
         this.raceNumber = buffer.readUnsignedByte();
         this.nationality = Nationality.valueOf(buffer.readUnsignedByte());
         this.name = PacketUtils.readString(buffer, ParticipantData.NAME_LENGTH);

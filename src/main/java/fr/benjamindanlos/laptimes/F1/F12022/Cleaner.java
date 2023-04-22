@@ -17,14 +17,11 @@ import java.util.List;
 @EnableScheduling
 public class Cleaner {
 
-	@Autowired
-	private Handler handler;
-
 	@Scheduled(fixedDelay = 5*60*1000)//5min
 	void cleanup(){
 		List<BigInteger> playersToRemove = new ArrayList<>();
 		//get list of keys to remove
-		handler.getPlayerLastData().forEach((p, date)->{
+		Handler.getPlayerLastData().forEach((p, date)->{
 			if(Duration.between(date, LocalDateTime.now(ZoneOffset.UTC)).toHours()>6){
 				playersToRemove.add(p);
 			}
@@ -32,23 +29,23 @@ public class Cleaner {
 
 
 		//remove in lapnumber map
-		handler.getPlayerCurrentLapNumber().forEach((p, l)->{
+		Handler.getPlayerCurrentLapNumber().forEach((p, l)->{
 			if(playersToRemove.contains(p)){
-				handler.getPlayerCurrentLapNumber().remove(p);
+				Handler.getPlayerCurrentLapNumber().remove(p);
 			}
 		});
 
 		//remove in playernames
-		handler.getPlayerNames().forEach((p, n)->{
+		Handler.getPlayerNames().forEach((p, n)->{
 			if(playersToRemove.contains(p)){
-				handler.getPlayerNames().remove(p);
+				Handler.getPlayerNames().remove(p);
 			}
 		});
 
 		//remove in activity map
-		handler.getPlayerLastData().forEach((p, l)->{
+		Handler.getPlayerLastData().forEach((p, l)->{
 			if(playersToRemove.contains(p)){
-				handler.getPlayerLastData().remove(p);
+				Handler.getPlayerLastData().remove(p);
 			}
 		});
 	}

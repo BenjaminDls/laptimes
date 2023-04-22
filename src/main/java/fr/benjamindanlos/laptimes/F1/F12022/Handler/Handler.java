@@ -9,11 +9,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Getter
 public class Handler {
 
-	private final Map<BigInteger, Integer> playerCurrentLapNumber = new HashMap<>();
-	private final Map<BigInteger, LocalDateTime> playerLastData = new HashMap<>();
-	private final Map<BigInteger, String> playerNames = new HashMap<>();
+	@Getter
+	protected final static Map<BigInteger, Integer> playerCurrentLapNumber = new HashMap<>();
+
+	@Getter
+	protected final static Map<BigInteger, LocalDateTime> playerLastData = new HashMap<>();
+
+	@Getter
+	protected final static Map<BigInteger, String> playerNames = new HashMap<>();
+
+	@Getter
+	protected final static Map<BigInteger, String> playerCars = new HashMap<>();
+
+	@Getter
+	protected final static Map<BigInteger, String> playerTracks = new HashMap<>();
+
+	@Getter
+	protected final static Map<BigInteger, Boolean> playerLapInvalid = new HashMap<>();
 
 }

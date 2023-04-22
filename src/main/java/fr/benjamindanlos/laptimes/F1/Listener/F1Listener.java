@@ -1,6 +1,6 @@
-package fr.benjamindanlos.laptimes.AssettoCorsa.Listener;
+package fr.benjamindanlos.laptimes.F1.Listener;
 
-import fr.benjamindanlos.laptimes.AssettoCorsa.Handler.DataHandler;
+import fr.benjamindanlos.laptimes.F1.Decoder.PacketEventDecoder;
 import fr.benjamindanlos.laptimes.UDP.UDP;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +12,15 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
 @Service
-public class ACListener {
+public class F1Listener {
 
-	@Value("${game.port.assettocorsa:9996}")
+	@Value("${game.port.f12022:20777}")
 	private int port;
 	@Value("${listenAddress}")
 	private String address;
 
 	@Autowired
-	private DataHandler handler;
+	private PacketEventDecoder packetEventDecoder;
 
 	@PostConstruct
 	public void init() {
@@ -33,7 +33,7 @@ public class ACListener {
 				}
 			}
 
-			UDP udpListener = new UDP(new InetSocketAddress(address, port), handler);
+			UDP udpListener = new UDP(new InetSocketAddress(address, port), packetEventDecoder);
 			try {
 				udpListener.bind().closeFuture().sync();
 			} catch (InterruptedException e) {
@@ -41,5 +41,4 @@ public class ACListener {
 			}
 		}).start();
 	}
-
 }

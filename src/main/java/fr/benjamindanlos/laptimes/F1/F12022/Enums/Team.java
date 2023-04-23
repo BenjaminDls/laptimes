@@ -234,7 +234,19 @@ public interface Team {
         CAMPOS_2021(114),
         BWT_2021(115),
         TRIDENT_2021(116),
-        MERCEDES_AMG_GT_BLACK_SERIES(117);
+        MERCEDES_AMG_GT_BLACK_SERIES(117),
+        PREMA_2022(118),
+        VIRTUOSI_2022(119),
+        CARLIN_2022(120),
+        HITECH_2022(121),
+        ART_GP_2022(122),
+        MP_MOTORSPORT_2022(123),
+        CHAROUZ_2022(124),
+        DAMS_2022(125),
+        CAMPOS_2022(126),
+		VAN_AMERSFOORT_RACING_2022(127),
+		TRIDENT_2022(128),
+		F1_2023_BETA(129);
 
         private static Map<Integer, Team2022> map = new HashMap<>();
 

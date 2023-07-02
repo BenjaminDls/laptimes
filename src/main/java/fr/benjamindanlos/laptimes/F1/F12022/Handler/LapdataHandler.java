@@ -36,7 +36,7 @@ public class LapdataHandler extends Handler {
 			String playername = playerNames.get(player);
 			String playerCar = playerCars.get(player);
 			String playerTrack = playerTracks.get(player);
-			float time = packetLapData.getLapData().get(index).getLastLapTime();
+			int time = packetLapData.getLapData().get(index).getLastLapTime();
 			log.info("{} just did {}s on {} driving {} (invalid:{})",
 					playername, time, playerTrack, playerCar, playerLapInvalid.get(player));
 

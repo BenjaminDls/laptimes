@@ -30,7 +30,7 @@ public class Laptime {
 	private String track;
 
 	@Column(nullable = false, name = "laptime")
-	private float laptime;
+	private int laptime;
 
 	@Column(nullable = false, name = "laptimeString")
 	private String laptimeString;

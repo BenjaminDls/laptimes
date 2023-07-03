@@ -5,9 +5,6 @@ pipeline {
     }
     stages {
         stage('Build') {
-            when {
-                branch "main"
-            }
             steps {
                 // Run Gradle to build without the tests.
                 sh "./gradlew build"

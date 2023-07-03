@@ -12,8 +12,8 @@ public class LapData {
 
     public static final int SIZE = 53;
 
-    private float lastLapTime;
-    private float currentLapTime;
+    private int lastLapTime;
+    private int currentLapTime;
     private int sector1TimeInMS;
     private int sector2TimeInMS;
     private float lapDistance;
@@ -44,8 +44,8 @@ public class LapData {
      * @return current filled LapData instance
      */
     public LapData fill(ByteBuf buffer) {
-        this.lastLapTime = buffer.readIntLE()/1000f;
-        this.currentLapTime = buffer.readIntLE()/1000f;
+        this.lastLapTime = buffer.readIntLE();
+        this.currentLapTime = buffer.readIntLE();
         this.sector1TimeInMS = buffer.readUnsignedShortLE();
         this.sector2TimeInMS = buffer.readUnsignedShortLE();
         this.lapDistance = buffer.readIntLE()/1000f;

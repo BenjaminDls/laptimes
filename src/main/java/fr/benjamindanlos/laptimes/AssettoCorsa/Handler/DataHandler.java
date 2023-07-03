@@ -64,7 +64,7 @@ public class DataHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 		entity.setGame(Games.AssettoCorsa);
 		entity.setDriver(lapdataExtended.getDriverName());
 		entity.setTrack(lapdataExtended.getTrackName());
-		entity.setLaptime(lapdataExtended.getTime()/1000.0f);
+		entity.setLaptime(lapdataExtended.getTime());
 		entity.setLaptimeString(Tools.laptimeToString(entity.getLaptime()));
 		entity.setDate(LocalDateTime.now(ZoneOffset.UTC));
 

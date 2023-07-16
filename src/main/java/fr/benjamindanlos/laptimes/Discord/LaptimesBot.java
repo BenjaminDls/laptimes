@@ -173,8 +173,16 @@ public class LaptimesBot {
 	}
 
 	private Mono<Void> handleCommand(ChatInputInteractionEvent event){
-		String r = commandHandler.handle(event.getCommandName(), event);
-		return event.reply(r);
+		try{
+			String r = commandHandler.handle(event.getCommandName(), event);
+			return event.reply(r);
+		}
+		catch (Exception e){
+			// Retry only once, trying to solve the error when sending a first command after a long time
+			// (after db connection reset, takes more time)
+			String r = commandHandler.handle(event.getCommandName(), event);
+			return event.reply(r);
+		}
 	}
 
 	/*private Mono<Void> handleNewLaptime(LaptimeEvent event){

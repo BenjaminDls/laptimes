@@ -25,11 +25,11 @@ public class LapdataExtended extends Packet{
 	}
 	@Override
 	public LapdataExtended fill(ByteBuf buffer) {
-		this.trackName = buffer.readBytes(100).toString(StandardCharsets.UTF_16LE).split("%")[0];
+		this.trackName = buffer.readBytes(100).toString(StandardCharsets.UTF_16BE).split("%")[0];
 		this.carIdentifierNumber = buffer.readIntLE();
 		this.lap = buffer.readIntLE();
-		this.driverName = buffer.readBytes(100).toString(StandardCharsets.UTF_16LE).split("%")[0];
-		this.carName = buffer.readBytes(100).toString(StandardCharsets.UTF_16LE).split("%")[0];
+		this.driverName = buffer.readBytes(100).toString(StandardCharsets.UTF_16BE).split("%")[0];
+		this.carName = buffer.readBytes(100).toString(StandardCharsets.UTF_16BE).split("%")[0];
 		this.time = buffer.readIntLE();
 		return this;
 	}

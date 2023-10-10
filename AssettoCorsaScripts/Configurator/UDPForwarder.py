@@ -104,41 +104,47 @@ class SssConnection:
     config = None
     trackName = ""
 
-    def __init__(self, gameIp):
-        self.updateConfig(gameIp)
-        print("Binding to {}".format(getLocalIp()))
-        self.sock.bind((getLocalIp(), self.gamePort))
+    def __init__(self, isOnSameComputer):
+        self.updateConfig()
+        if self.config[keySameComputer]:
+            localIp = self.gameIp
+        else:
+            localIp = getLocalIp()
+        self.sock.bind((localIp, 0)) # bind to 0 => let Python choose a port
+        print("Listening on {}:{}".format(localIp, self.sock.getsockname()[1]))
+        print("Game {}:{}".format(self.gameIp, self.gamePort))
+        print("Server {}:{}".format(self.serverIp, self.serverPort))
 
     def askToConnect(self):
         self.sock.sendto(Handshake(1,1,0).b(), (self.gameIp, self.gamePort))
-        print("sent connect request")
+        #print("sent connect request")
         data = self.sock.recv(HandshakerResponse.size)
         parsed = HandshakerResponse(data)
-        print("received connect confirm : %s" % parsed)
+        #print("received connect confirm : %s" % parsed)
         self.trackName = parsed.trackName
 
     def askToDisonnect(self):
         self.sock.sendto(Handshake(1,1,3).b(), (self.gameIp, self.gamePort))
-        print("sent disconnect request")
+        #print("sent disconnect request")
         self.sock.close()
 
     def askForLapData(self):
         if self.wanted=="":
             self.sock.sendto(Handshake(1,1,2).b(), (self.gameIp, self.gamePort))
-            print("sent lapdata request")
+            #print("sent lapdata request")
             self.wanted="Lapdata"
             self.transfertDataTo()
-        else:
-            print("Already set up")
+        #else:
+            #print("Already set up")
 
     def askForTelemetryData(self):
         if self.wanted=="":
             self.sock.sendto(Handshake(1,1,1).b(), (self.gameIp, self.gamePort))
-            print("sent telemetry request")
+            #print("sent telemetry request")
             self.wanted="Telemetry"
             self.transfertDataTo()
-        else:
-            print("Already set up")
+        #else:
+            #print("Already set up")
 
     def transfertDataTo(self):
         try:
@@ -151,33 +157,34 @@ class SssConnection:
                     lapdataExtended = LapDataExtended(self.trackName, lapdata)
                     lapdataExtended.lapdata = lapdata
                     lapdataExtended.identifier = 2
-                    print("received lapdata : %s" % lapdataExtended)
+                    #print("received lapdata : %s" % lapdataExtended)
                     sendData: bytes = lapdataExtended.toBytes()
                     self.sock.sendto(sendData, (self.serverIp, self.serverPort))
                 else:
                     print("waiting to receive telemetry")
                     data = self.sock.recv(TelemetryData.size)
                     telemetry = TelemetryData(data)
-                    print("received telemetry : %s" % telemetry)
-                self.updateConfig(self.gameIp)
+                    #print("received telemetry : %s" % telemetry)
+                self.updateConfig()
         except KeyboardInterrupt:
             self.askToDisonnect()
 
-    def updateConfig(self, gameIp):
+    def updateConfig(self):
         self.config = readConfig()
-        if not gameIp:
-            gameIp=getLocalIp()
-        self.gameIp=gameIp
-        self.gamePort=9996
-        self.serverIp = self.config[keyIp]
-        self.serverPort = self.config[keyPort]
-        print(self.config)
+        self.gameIp = self.config[keyGameIp]
+        self.gamePort= self.config[keyGamePort]
+        self.serverIp = self.config[keyServerIp]
+        self.serverPort = self.config[keyServerPort]
+        #print(self.config)
 
 
-file = "AssettoCorsaScripts/Configurator/config.json"
+file = "./config.json"
 keyRun = "isRunning"
-keyIp = "ip"
-keyPort = "port"
+keySameComputer = "isGameOnSameComputer"
+keyServerIp = "serverIp"
+keyServerPort = "serverPort"
+keyGameIp = "gameIp"
+keyGamePort = "gamePort"
 
 
 def readConfig():
@@ -185,21 +192,42 @@ def readConfig():
     data = f.read()
     f.close()
     potConfig = json.loads(data)
-    if potConfig[keyIp] and potConfig[keyPort]:
+    if potConfig[keyServerIp] and potConfig[keyServerPort]:
         try:
-            ipaddress.ip_address(potConfig[keyIp])
+            ipaddress.ip_address(potConfig[keyServerIp])
         except:
             try:
-                potConfig[keyIp] = socket.gethostbyname(potConfig[keyIp])
+                potConfig[keyServerIp] = socket.gethostbyname(potConfig[keyServerIp])
             except:
-                print("invalid ip : {}", potConfig[keyIp])
+                print("invalid Server ip : {}", potConfig[keyServerIp])
                 raise ValueError
         try:
-            port = int(potConfig[keyPort])
+            port = int(potConfig[keyServerPort])
             if port<=1000 or port>=65535:
                 raise ValueError
         except:
-            print("invalid port : ",{potConfig[keyPort]})
+            print("invalid Server port : ",{potConfig[keyServerPort]})
+            raise ValueError
+    else:
+        raise ValueError
+    if potConfig[keyGameIp] and potConfig[keyGamePort]:
+        try:
+            ipaddress.ip_address(potConfig[keyGameIp])
+        except:
+            try:
+                potConfig[keyGameIp] = socket.gethostbyname(potConfig[keyGameIp])
+            except:
+                print("invalid Game ip : {}", potConfig[keyGameIp])
+                raise ValueError
+        try:
+            port = int(potConfig[keyGamePort])
+            if port<=1000 or port>=65535:
+                raise ValueError
+        except:
+            print("invalid Game port : ",{potConfig[keyGamePort]})
+            raise ValueError
+    else:
+        raise ValueError
     return potConfig
 
 
@@ -208,7 +236,7 @@ def getLocalIp():
     ip = socket.gethostbyname(hostname)
     return ip
 
-udp = SssConnection("192.168.1.10")
+udp = SssConnection(True)
 udp.askToConnect()
 #udp.askForTelemetryData()
 udp.askForLapData()

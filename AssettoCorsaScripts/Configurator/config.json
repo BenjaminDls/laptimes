@@ -1,0 +1,8 @@
+{
+    "isRunning":true,
+    "serverIp":"benjamindanlos.fr",
+    "serverPort":9996,
+    "gameIp":"192.168.1.10",
+    "gamePort":9996,
+    "isGameOnSameComputer": true
+}

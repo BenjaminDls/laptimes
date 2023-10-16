@@ -1,6 +1,7 @@
 package fr.benjamindanlos.laptimes.Discord;
 
 import discord4j.core.GatewayDiscordClient;
+import discord4j.core.event.domain.interaction.ChatInputAutoCompleteEvent;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
 import discord4j.discordjson.json.ApplicationCommandOptionData;
@@ -9,6 +10,7 @@ import discord4j.rest.RestClient;
 import discord4j.rest.service.ApplicationService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class LaptimesBot {
 
 	@Autowired
 	private CommandHandler commandHandler;
+
+	@Autowired
+	private AutoCompleteHandler autoCompleteHandler;
 
 	@PostConstruct
 	public void init(){
@@ -52,6 +57,8 @@ public class LaptimesBot {
 		//Register command handlers (all chat commands go to one handler that dispatches the execution)
 		gatewayDiscordClient.on(ChatInputInteractionEvent.class, this::handleCommand)
 				.subscribe();
+		gatewayDiscordClient.on(ChatInputAutoCompleteEvent.class, event -> autoCompleteHandler.handleAutoComplete(event))
+				.subscribe();
 		/*gatewayDiscordClient.on(LaptimeEvent.class, this::handleNewLaptime)
 				.subscribe();
 
@@ -70,24 +77,28 @@ public class LaptimesBot {
 						.description("Driver name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("track")
 						.description("Track name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("car")
 						.description("Car name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("game")
 						.description("Game name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).build();
 		// Create the command with Discord
@@ -107,12 +118,14 @@ public class LaptimesBot {
 						.description("Track name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("game")
 						.description("Game name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).build();
 		// Create the command with Discord
@@ -132,18 +145,21 @@ public class LaptimesBot {
 						.description("Track name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("car")
 						.description("Car name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).addOption(ApplicationCommandOptionData.builder()
 						.name("game")
 						.description("Game name")
 						.type(ApplicationCommandOption.Type.STRING.getValue())
 						.required(true)
+						.autocomplete(true)
 						.build()
 				).build();
 		// Create the command with Discord

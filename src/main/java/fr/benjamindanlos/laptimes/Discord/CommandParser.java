@@ -3,7 +3,6 @@ package fr.benjamindanlos.laptimes.Discord;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

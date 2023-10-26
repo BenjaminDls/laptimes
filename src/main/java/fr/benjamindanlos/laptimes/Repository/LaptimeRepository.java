@@ -90,4 +90,28 @@ public interface LaptimeRepository extends JpaRepository<Laptime, Integer>{
 			"order by game, track, driver, car, laptime ", nativeQuery = true)
 	List<Laptime> findAllBySession(@Param("date") LocalDate date);
 
+	@Query(value = "select game from laptime group by game", nativeQuery = true)
+	List<String> gamesList();
+
+	@Query(value = "select game from laptime where game like CONCAT('%', :name, '%') group by game", nativeQuery = true)
+	List<String> gamesLike(@Param("name") String name);
+
+	@Query(value = "select track from laptime group by track", nativeQuery = true)
+	List<String> tracksList();
+
+	@Query(value = "select track from laptime where track like CONCAT('%', :name, '%') group by track", nativeQuery = true)
+	List<String> tracksLike(@Param("name") String name);
+
+	@Query(value = "select car from laptime group by car", nativeQuery = true)
+	List<String> carsList();
+
+	@Query(value = "select car from laptime where car like CONCAT('%', :name, '%') group by car", nativeQuery = true)
+	List<String> carsLike(@Param("name") String name);
+
+	@Query(value = "select driver from laptime group by driver", nativeQuery = true)
+	List<String> driversList();
+
+	@Query(value = "select driver from laptime where driver like CONCAT('%', :name, '%') group by driver", nativeQuery = true)
+	List<String> driversLike(@Param("name") String name);
+
 }

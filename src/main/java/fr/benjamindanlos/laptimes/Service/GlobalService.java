@@ -4,11 +4,14 @@ import fr.benjamindanlos.laptimes.Entities.Laptime;
 import fr.benjamindanlos.laptimes.Repository.LaptimeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -131,5 +134,49 @@ public class GlobalService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public List<String> knownGames(String nameLike){
+		List<String> games = new ArrayList<>();
+		if(StringUtils.isEmpty(nameLike)){
+			games.addAll(laptimeRepository.gamesList());
+		}
+		else{
+			games.addAll(laptimeRepository.gamesLike(nameLike));
+		}
+		return games;
+	}
+
+	public List<String> knownTracks(String nameLike){
+		List<String> tracks = new ArrayList<>();
+		if(StringUtils.isEmpty(nameLike)){
+			tracks.addAll(laptimeRepository.tracksList());
+		}
+		else{
+			tracks.addAll(laptimeRepository.tracksLike(nameLike));
+		}
+		return tracks;
+	}
+
+	public List<String> knownCars(String nameLike){
+		List<String> cars = new ArrayList<>();
+		if(StringUtils.isEmpty(nameLike)){
+			cars.addAll(laptimeRepository.carsList());
+		}
+		else{
+			cars.addAll(laptimeRepository.carsLike(nameLike));
+		}
+		return cars;
+	}
+
+	public List<String> knownDrivers(String nameLike){
+		List<String> drivers = new ArrayList<>();
+		if(StringUtils.isEmpty(nameLike)){
+			drivers.addAll(laptimeRepository.driversList());
+		}
+		else{
+			drivers.addAll(laptimeRepository.driversLike(nameLike));
+		}
+		return drivers;
 	}
 }

@@ -137,4 +137,5 @@ public interface LaptimeRepository extends CrudRepository<Laptime, Integer>{
 
 	@Query(value = "delete from laptime where driver='driver';", nativeQuery = true)
 	void deleteDev();
+
 }

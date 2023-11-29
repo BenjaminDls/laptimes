@@ -21,7 +21,6 @@ import java.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
@@ -30,6 +29,9 @@ public class LaptimesBot {
 
 	@Value("${discord.bot.id}")
 	private Long BOTID;
+
+	@Value("${discord.devmode:false}")
+	private String devMode;
 
 	private final RestClient restClient;
 
@@ -61,16 +63,17 @@ public class LaptimesBot {
 			return event.deferReply().then(event.createFollowup(this.handleCommand(event)));
 		}).subscribe();
 
-		ApplicationCommandRequest devCmd = ApplicationCommandRequest.builder()
-				.name("dev")
-				.description("null")
-				.build();
-		// Create the command with Discord
-		applicationService.createGlobalApplicationCommand(BOTID, devCmd)
-				.doOnNext(ignore -> log.info("Successfully registered dev command"))
-				.doOnError(e -> log.error("Failed to register dev command", e))
-				.subscribe();
-
+		if("true".equalsIgnoreCase(devMode)){
+			ApplicationCommandRequest devCmd = ApplicationCommandRequest.builder()
+					.name("dev")
+					.description("null")
+					.build();
+			// Create the command with Discord
+			applicationService.createGlobalApplicationCommand(BOTID, devCmd)
+					.doOnNext(ignore -> log.info("Successfully registered dev command"))
+					.doOnError(e -> log.error("Failed to register dev command", e))
+					.subscribe();
+		}
 	}
 
 	private void registerCommandBestDriverLapCarTrackGame(ApplicationService applicationService){

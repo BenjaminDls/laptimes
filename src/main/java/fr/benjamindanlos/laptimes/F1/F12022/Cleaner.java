@@ -1,7 +1,6 @@
 package fr.benjamindanlos.laptimes.F1.F12022;
 
 import fr.benjamindanlos.laptimes.F1.F12022.Handler.Handler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

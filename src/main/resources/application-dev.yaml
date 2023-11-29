@@ -9,3 +9,5 @@ logging:
   level:
     fr.benjamindanlos.laptimes: DEBUG
 listenAddress: 127.0.0.1
+discord:
+  devmode: true

@@ -33,3 +33,4 @@ discord:
     channelId: ${discord_events_channelId}
     games:
       - AssettoCorsa
+  devmode: false

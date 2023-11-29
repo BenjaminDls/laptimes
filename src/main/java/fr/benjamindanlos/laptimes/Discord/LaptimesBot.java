@@ -1,14 +1,23 @@
 package fr.benjamindanlos.laptimes.Discord;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
+import discord4j.core.object.entity.channel.GuildMessageChannel;
+import discord4j.core.spec.EmbedCreateFields;
+import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.discordjson.json.ApplicationCommandOptionData;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.rest.RestClient;
 import discord4j.rest.service.ApplicationService;
+import discord4j.rest.util.Color;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.Instant;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,19 +25,17 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LaptimesBot {
 
 	@Value("${discord.bot.id}")
 	private Long BOTID;
 
-	@Autowired
-	private RestClient restClient;
+	private final RestClient restClient;
 
-	@Autowired
-	private GatewayDiscordClient gatewayDiscordClient;
+	private final GatewayDiscordClient gatewayDiscordClient;
 
-	@Autowired
-	private CommandHandler commandHandler;
+	private final CommandHandler commandHandler;
 
 	@PostConstruct
 	public void init(){
@@ -50,13 +57,19 @@ public class LaptimesBot {
 		registerCommandEndSession(applicationService);
 
 		//Register command handlers (all chat commands go to one handler that dispatches the execution)
-		gatewayDiscordClient.on(ChatInputInteractionEvent.class, this::handleCommand)
-				.subscribe();
-		/*gatewayDiscordClient.on(LaptimeEvent.class, this::handleNewLaptime)
-				.subscribe();
+		gatewayDiscordClient.on(ChatInputInteractionEvent.class, (event)->{
+			return event.deferReply().then(event.createFollowup(this.handleCommand(event)));
+		}).subscribe();
 
-		log.info("raising");
-		Mono.just(new LaptimeEvent(gatewayDiscordClient, ShardInfo.create(1,1), new Laptime()));*/
+		ApplicationCommandRequest devCmd = ApplicationCommandRequest.builder()
+				.name("dev")
+				.description("null")
+				.build();
+		// Create the command with Discord
+		applicationService.createGlobalApplicationCommand(BOTID, devCmd)
+				.doOnNext(ignore -> log.info("Successfully registered dev command"))
+				.doOnError(e -> log.error("Failed to register dev command", e))
+				.subscribe();
 
 	}
 
@@ -172,22 +185,33 @@ public class LaptimesBot {
 				.subscribe();
 	}
 
-	private Mono<Void> handleCommand(ChatInputInteractionEvent event){
-		try{
-			String r = commandHandler.handle(event.getCommandName(), event);
-			return event.reply(r);
-		}
-		catch (Exception e){
-			// Retry only once, trying to solve the error when sending a first command after a long time
-			// (after db connection reset, takes more time)
-			String r = commandHandler.handle(event.getCommandName(), event);
-			return event.reply(r);
-		}
+	private String handleCommand(ChatInputInteractionEvent event){
+		String r = commandHandler.handle(event.getCommandName(), event);
+		return r;
 	}
 
-	/*private Mono<Void> handleNewLaptime(LaptimeEvent event){
-		log.info("raised");
-		return Mono.empty();
-	}*/
+	public void sendMessage(String channelId, String message){
+		this.gatewayDiscordClient.getChannelById(Snowflake.of(channelId))
+			.ofType(GuildMessageChannel.class)
+			.flatMap(channel -> channel.createMessage(message))
+			.doOnError(error->log.error(error.getMessage()))
+			.subscribe();
+	}
+
+	public void sendMessageEmbeded(String channelId, String title, EmbedCreateFields.Field... fields){
+		EmbedCreateSpec embed = EmbedCreateSpec.builder()
+			.color(Color.of(0xF48FB1))
+			.title(title)
+			.addFields(fields)
+			.timestamp(Instant.now())
+			.build();
+
+		log.info(embed.toString());
+		this.gatewayDiscordClient.getChannelById(Snowflake.of(channelId))
+			.ofType(GuildMessageChannel.class)
+			.flatMap(channel -> channel.createMessage(embed))
+			.doOnError(error->log.error(error.getMessage()))
+			.subscribe();
+	}
 
 }

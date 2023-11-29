@@ -1,7 +1,12 @@
 package fr.benjamindanlos.laptimes.UDP;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.*;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 import jakarta.annotation.PreDestroy;
@@ -20,7 +25,7 @@ public class UDP {
 		this.bootstrap.group(group)
 				.channel(NioDatagramChannel.class)
 				.option(ChannelOption.SO_BROADCAST, true)
-				.handler( new ChannelInitializer<>() {
+				.handler(new ChannelInitializer<>() {
 					@Override
 					protected void initChannel(Channel channel){
 						ChannelPipeline pipeline = channel.pipeline();

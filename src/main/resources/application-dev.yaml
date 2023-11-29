@@ -1,0 +1,11 @@
+spring:
+  datasource:
+      url: jdbc:mariadb://${dev_dbhost}:3306/laptimes_dev
+      username: ${dev_dbuser}
+      password: ${dev_dbpass}
+  jpa:
+    show-sql: true
+logging:
+  level:
+    fr.benjamindanlos.laptimes: DEBUG
+listenAddress: 127.0.0.1

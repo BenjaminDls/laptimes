@@ -5,6 +5,7 @@
 - [ ] Commandes de listage des jeux, joueurs, voitures ...
 - [x] Faire marcher le script python de transfert des data AC
 - [x] Ajouter le support pour d'autres jeux (F1 22 commencé)
+- [ ] Ajouter un alias aux noms de circuits/voiture (a cause d'Assetto Corsa)
 
 
 # Lancer en local

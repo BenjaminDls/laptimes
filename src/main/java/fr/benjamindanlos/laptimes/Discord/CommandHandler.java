@@ -5,6 +5,7 @@ import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
 import fr.benjamindanlos.laptimes.Entities.Laptime;
 import fr.benjamindanlos.laptimes.Service.GlobalService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,10 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommandHandler {
 
-	@Autowired
-	private GlobalService service;
+	private final GlobalService service;
 
 	/**
 	 * Dispatch the command to a method based on the commandName
@@ -38,6 +39,8 @@ public class CommandHandler {
 					return handleLeaderboardByCar(event);
 				case "endsession":
 					return handleEndSession(event);
+					case "dev":
+					return handleDev(event);
 				default:
 					return "This command is not implemented (yet?)";
 			}
@@ -47,6 +50,13 @@ public class CommandHandler {
 			e.printStackTrace();
 			return "An error occurred, please try again later";
 		}
+	}
+
+	public String handleDev(ChatInputInteractionEvent event){
+
+		service.dev();
+
+		return "ok";
 	}
 
 	/**

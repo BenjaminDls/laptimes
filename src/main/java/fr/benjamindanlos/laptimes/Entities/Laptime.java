@@ -1,7 +1,16 @@
 package fr.benjamindanlos.laptimes.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+
+import fr.benjamindanlos.laptimes.Events.Watcher.PersonnalBestWatcher;
+import fr.benjamindanlos.laptimes.Events.Watcher.SessionBestWatcher;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
@@ -9,6 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "laptime")
+@EntityListeners(value = {PersonnalBestWatcher.class, SessionBestWatcher.class})
 public class Laptime {
 
 	@Id

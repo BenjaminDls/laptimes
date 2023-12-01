@@ -12,10 +12,12 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @Configuration
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 @ComponentScan
+@EnableAsync
 public class LaptimesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LaptimesApplication.class, args);

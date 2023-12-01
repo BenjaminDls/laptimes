@@ -1,0 +1,36 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    url: jdbc:mariadb://${dbhost}:3306/laptimes
+    username: ${dbuser}
+    password: ${dbpass}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+logging:
+  file:
+    path: /var/log/laptimes
+
+listenAddress:
+  game:
+    port:
+      f12022: 20777
+      assettocorsa: 9996
+
+discord:
+  token: ${discord_token}
+  bot:
+    id: ${discord_bot_id}
+  events:
+    channelId: ${discord_events_channelId}
+    games:
+      - AssettoCorsa
+  devmode: false

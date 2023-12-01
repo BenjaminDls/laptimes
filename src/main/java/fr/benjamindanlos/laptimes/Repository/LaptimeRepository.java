@@ -1,7 +1,7 @@
 package fr.benjamindanlos.laptimes.Repository;
 
 import fr.benjamindanlos.laptimes.Entities.Laptime;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Repository
-public interface LaptimeRepository extends JpaRepository<Laptime, Integer>{
+public interface LaptimeRepository extends CrudRepository<Laptime, Integer>{
 
 	@Query(value = "select l.* from laptime l  " +
 			"join (select id " +
@@ -62,7 +62,6 @@ public interface LaptimeRepository extends JpaRepository<Laptime, Integer>{
 			") l2 on l.id=l2.id", nativeQuery = true)
 	List<Laptime> findAllBestByTrackAndGameAndCar(@Param("track") String track, @Param("game") String game, @Param("car") String car);
 
-
 	@Query(value = "select l.* from laptime l " +
 			"where driver=:driver " +
 			"and game=:game " +
@@ -74,7 +73,6 @@ public interface LaptimeRepository extends JpaRepository<Laptime, Integer>{
 											  @Param("game") String game,
 											  @Param("track") String track,
 											  @Param("car") String car);
-
 
 	@Query(value = "select l.* " +
 			"from laptime l " +
@@ -113,5 +111,31 @@ public interface LaptimeRepository extends JpaRepository<Laptime, Integer>{
 
 	@Query(value = "select driver from laptime where driver like CONCAT('%', :name, '%') group by driver", nativeQuery = true)
 	List<String> driversLike(@Param("name") String name);
+
+	@Query(value = "select l.* from laptime l " +
+			"where driver=:driver " +
+			"and game=:game " +
+			"and track=:track " +
+			"and car=:car " +
+			"group by l.driver, l.game, l.track, l.car " +
+			"having min(l.laptime) limit 1", nativeQuery = true)
+	Laptime findPersonnalBestByDriverAndGameAndTrackAndCar(@Param("driver") String driver,
+											  @Param("game") String game,
+											  @Param("track") String track,
+											  @Param("car") String car);
+
+	@Query(value = "select l.* from laptime l " +
+			"where game=:game " +
+			"and track=:track " +
+			"and car=:car " +
+			"group by l.game, l.track, l.car " +
+			"having min(l.laptime) limit 1", nativeQuery = true)
+	Laptime findSessionBestByGameAndTrackAndCar(
+											  @Param("game") String game,
+											  @Param("track") String track,
+											  @Param("car") String car);
+
+	@Query(value = "delete from laptime where driver='driver';", nativeQuery = true)
+	void deleteDev();
 
 }

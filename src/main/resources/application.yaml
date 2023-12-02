@@ -2,9 +2,9 @@ server:
   port: 9000
 spring:
   datasource:
-    url: jdbc:mariadb://${dbhost}:3306/laptimes
-    username: ${dbuser}
-    password: ${dbpass}
+    url: jdbc:mariadb://\${dbhost}:3306/laptimes
+    username: \${dbuser}
+    password: \${dbpass}
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
@@ -26,11 +26,14 @@ listenAddress:
       assettocorsa: 9996
 
 discord:
-  token: ${discord_token}
+  token: \${discord_token}
   bot:
-    id: ${discord_bot_id}
+    id: \${discord_bot_id}
   events:
-    channelId: ${discord_events_channelId}
+    channelId: \${discord_events_channelId}
     games:
       - AssettoCorsa
   devmode: false
+
+project:
+  version: ${version?:dev}

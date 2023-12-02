@@ -20,10 +20,10 @@ logging:
     path: /var/log/laptimes
 
 listenAddress:
-  game:
-    port:
-      f12022: 20777
-      assettocorsa: 9996
+game:
+  port:
+    f12022: 20777
+    assettocorsa: 9996
 
 discord:
   token: \${discord_token}

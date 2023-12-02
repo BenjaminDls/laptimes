@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'fr.benjamindanlos'
-version="0.6.5"
+version="0.7.1"
 sourceCompatibility = '17'
 
 configurations {
@@ -48,6 +48,12 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+processResources {
+    filesMatching('**/application.yaml') {
+        expand(project.properties)
+    }
 }
 
 tasks.named('test') {

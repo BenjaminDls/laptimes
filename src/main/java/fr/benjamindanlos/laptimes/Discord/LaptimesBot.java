@@ -2,10 +2,11 @@ package fr.benjamindanlos.laptimes.Discord;
 
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
-import discord4j.core.event.domain.interaction.ChatInputAutoCompleteEvent;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
+import discord4j.core.object.presence.ClientActivity;
+import discord4j.core.object.presence.ClientPresence;
 import discord4j.core.spec.EmbedCreateFields;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.discordjson.json.ApplicationCommandOptionData;
@@ -27,6 +28,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LaptimesBot {
+	
+	@Value("${project.version:dev}")
+	private String projectVersion;
 
 	@Value("${discord.bot.id}")
 	private Long BOTID;
@@ -39,9 +43,6 @@ public class LaptimesBot {
 	private final GatewayDiscordClient gatewayDiscordClient;
 
 	private final CommandHandler commandHandler;
-
-	@Autowired
-	private AutoCompleteHandler autoCompleteHandler;
 
 	@PostConstruct
 	public void init(){
@@ -78,6 +79,13 @@ public class LaptimesBot {
 					.doOnError(e -> log.error("Failed to register dev command", e))
 					.subscribe();
 		}
+
+		// Update presence with project version
+		this.gatewayDiscordClient.updatePresence(
+			ClientPresence.online(
+				ClientActivity.streaming("Version "+projectVersion, null)
+			)
+		).block();
 
 	}
 

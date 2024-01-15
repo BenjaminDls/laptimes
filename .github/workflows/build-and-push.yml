@@ -47,7 +47,7 @@ jobs:
       uses: docker/login-action@v3
       with:
         username: benjamindls
-        password: ${{ secrets.GHCR_PAT }}
+        password: ${{ secrets.GH_PAT }}
         registry: ghcr.io
 
     # Build and push image for multiple architectures
@@ -71,7 +71,7 @@ jobs:
       uses: docker/login-action@v3
       with:
         username: benjamindls
-        password: ${{ secrets.GHCR_PAT }}
+        password: ${{ secrets.GH_PAT }}
         registry: ghcr.io
 
     # Set up QEMU
@@ -97,4 +97,4 @@ jobs:
         package-name: '${{ github.event.repository.name }}'
         package-type: 'container'
         delete-only-untagged-versions: 'true'
-        token: ${{ secrets.GHCR_PAT }}
+        token: ${{ secrets.GH_PAT }}

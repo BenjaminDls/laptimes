@@ -21,7 +21,7 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_ACTION }}
+          token: ${{ secrets.GH_PAT }}
           ref: main
           fetch-depth: 0
 
@@ -87,4 +87,4 @@ jobs:
           newVersion=$( echo "$version" | cut -d - -f 1 )
           gh pr create --base main --title "v$newVersion" --body "v$newVersion"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}

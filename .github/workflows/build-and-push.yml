@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  archs: linux/amd64,linux/arm/v6,linux/arm64
+  archs: linux/amd64,linux/arm64
 
 run-name: Build and Push -- ${{ github.ref_name }}
 

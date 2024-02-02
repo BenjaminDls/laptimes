@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+    laptimesapi:
+        container_name: laptimesapi
+        image: ghcr.io/benjamindls/laptimes:latest
+        ports:
+            - 9000:9000
+            - 9996:9996
+            - 20777:20777
+        environment:
+            - dbpass=$dbpass
+            - dbuser=$dbuser
+            - dbhost=$dbhost
+            - discord_bot_id=$discord_bot_id
+            - discord_token=$discord_token
+            - discord_events_channelId=$discord_events_channelId
+    laptimesapi-dev:
+        container_name: laptimesapi-dev
+        image: ghcr.io/benjamindls/laptimes:develop
+        ports:
+            - 9001:9000
+            - 9997:9996
+            - 20778:20777
+        environment:
+            - dbpass=$dbpass_dev
+            - dbuser=$dbuser_dev
+            - dbhost=$dbhost_dev
+            - discord_bot_id=$discord_bot_id_dev
+            - discord_token=$discord_token_dev
+            - discord_events_channelId=$discord_events_channelId_dev
+            - JVM_OPTS=-Ddiscord.devmode=true

@@ -23,10 +23,10 @@ services:
             - 9997:9996
             - 20778:20777
         environment:
-            - dbpass=$dbpass
-            - dbuser=$dbuser
-            - dbhost=$dbhost
-            - discord_bot_id=$discordbotid
-            - discord_token=$discordtoken
-            - discord_events_channelId=$discordeventschannelid
+            - dbpass=$dbpass_dev
+            - dbuser=$dbuser_dev
+            - dbhost=$dbhost_dev
+            - discord_bot_id=$discordbotid_dev
+            - discord_token=$discordtoken_dev
+            - discord_events_channelId=$discordeventschannelid_dev
             - JVM_OPTS=-Ddiscord.devmode=true

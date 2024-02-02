@@ -12,9 +12,9 @@ services:
             - dbpass=$dbpass
             - dbuser=$dbuser
             - dbhost=$dbhost
-            - discord_bot_id=$discordbotid
-            - discord_token=$discordtoken
-            - discord_events_channelId=$discordeventschannelid
+            - discord_bot_id=$discord_bot_id
+            - discord_token=$discord_token
+            - discord_events_channelId=$discord_events_channelId
     laptimesapi-dev:
         container_name: laptimesapi-dev
         image: ghcr.io/benjamindls/laptimes:develop
@@ -26,7 +26,7 @@ services:
             - dbpass=$dbpass_dev
             - dbuser=$dbuser_dev
             - dbhost=$dbhost_dev
-            - discord_bot_id=$discordbotid_dev
-            - discord_token=$discordtoken_dev
-            - discord_events_channelId=$discordeventschannelid_dev
+            - discord_bot_id=$discord_bot_id_dev
+            - discord_token=$discord_token_dev
+            - discord_events_channelId=$discord_events_channelId_dev
             - JVM_OPTS=-Ddiscord.devmode=true

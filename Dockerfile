@@ -8,4 +8,5 @@ COPY --from=builder /usr/app/build/libs/laptimes*.jar laptimes.jar
 EXPOSE 9000
 EXPOSE 9996
 EXPOSE 20777
+
 ENTRYPOINT ["java","-jar","laptimes.jar"]

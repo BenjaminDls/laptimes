@@ -3,7 +3,7 @@ WORKDIR /usr/app/
 COPY . .
 RUN gradle build --no-daemon 
 
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:17-jre
 COPY --from=builder /usr/app/build/libs/laptimes*.jar laptimes.jar
 EXPOSE 9000
 EXPOSE 9996

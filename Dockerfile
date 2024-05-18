@@ -9,4 +9,6 @@ EXPOSE 9000
 EXPOSE 9996
 EXPOSE 20777
 
+LABEL org.opencontainers.image.author = contact@benjamindanlos.fr
+LABEL org.opencontainers.image.source = "https://github.com/BenjaminDls/laptimes"
 ENTRYPOINT ["java","-jar","laptimes.jar"]

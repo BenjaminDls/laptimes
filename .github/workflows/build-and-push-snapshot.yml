@@ -43,12 +43,3 @@ jobs:
         push: true
         tags: ghcr.io/${{ secrets.GH_USERNAME }}/${{ github.event.repository.name }}:snapshot
         platforms: ${{ env.archs }}
-
-    # Delete old develop images now untagged after new one is pushed
-    - name: Delete old SNAPSHOT images
-      uses: actions/delete-package-versions@v4
-      with:
-        package-name: '${{ github.event.repository.name }}'
-        package-type: 'container'
-        delete-only-untagged-versions: 'true'
-        token: ${{ secrets.GH_PAT }}

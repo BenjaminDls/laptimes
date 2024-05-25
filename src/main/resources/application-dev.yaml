@@ -1,8 +1,8 @@
 spring:
   datasource:
-      url: jdbc:mariadb://${dev_dbhost}:3306/laptimes_dev
-      username: ${dev_dbuser}
-      password: ${dev_dbpass}
+    url: jdbc:\${dbprotocol}://\${dbhost}:\${dbport}/\${dbname}
+    username: \${dbuser}
+    password: \${dbpass}
   jpa:
     show-sql: true
 logging:

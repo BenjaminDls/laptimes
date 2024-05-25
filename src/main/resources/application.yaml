@@ -2,10 +2,10 @@ server:
   port: 9000
 spring:
   datasource:
-    url: jdbc:mariadb://\${dbhost}:3306/laptimes
+    url: jdbc:\${dbprotocol}://\${dbhost}:\${dbport}/\${dbname}
     username: \${dbuser}
     password: \${dbpass}
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: \${dbdriver}
   jpa:
     hibernate:
       ddl-auto: none
@@ -13,7 +13,7 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: \${dbdialect}
 
 logging:
   file:

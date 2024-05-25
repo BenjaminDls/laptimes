@@ -1,13 +1,13 @@
-CREATE DATABASE 'laptimes';
+-- CREATE DATABASE 'laptimes';
 -- CREATE DATABASE 'laptimes_dev';
 
-CREATE USER IF NOT EXISTS ''@localhost IDENTIFIED BY '';
-GRANT ALL PRIVILEGES ON laptimes.* TO ''@localhost IDENTIFIED BY '';
+-- CREATE USER IF NOT EXISTS ''@localhost IDENTIFIED BY '';
+-- GRANT ALL PRIVILEGES ON laptimes.* TO ''@localhost IDENTIFIED BY '';
 -- GRANT ALL PRIVILEGES ON laptimes_dev.* TO ''@localhost IDENTIFIED BY '';
 
 -- CREATE TABLES
 
-use laptimes;
+-- use laptimes;
 -- use laptimes_dev;
 
 create table if not exists laptime

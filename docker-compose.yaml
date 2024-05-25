@@ -23,6 +23,8 @@ services:
     volumes:
       - /opt/laptimesapi/release:/usr/app/
     restart: unless-stopped
+    depends_on:
+      - laptimes_db
 
   laptimesapi-dev:
     container_name: laptimesapi-dev
@@ -46,6 +48,8 @@ services:
     volumes:
       - /opt/laptimesapi/dev:/usr/app/
     restart: unless-stopped
+    depends_on:
+      - laptimes_db_dev
   db:
     image: mariadb
     container_name: laptimes_db

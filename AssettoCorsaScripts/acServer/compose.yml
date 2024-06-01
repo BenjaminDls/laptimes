@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  lazytainer:
+    container_name: lazy-container
+    image: ghcr.io/vmorganp/lazytainer:master
+    environment:
+      - VERBOSE=true
+      - PORT=8081, 9600
+      - TIMEOUT=60
+      - MINPACKETTHRESH=10
+      - LABEL=lazytainer
+    ports:
+      - 8081:8081
+      - 9600:9600
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "lazytainer.group.acserver.pollRate=1"
+      - "lazytainer.group.acserver.inactiveTimeout=120"
+      - "lazytainer.group.acserver.ports=8081,9600"
+      - "lazytainer.group.acserver.MINPACKETTHRESH=2"
+      - "lazytainer.group.acserver.sleepMethod=stop"
+
+  acserverlazy:
+    container_name: lazy-acserver
+    image: benjamindls/acserver:latest
+    #ports:
+    #  - 8081:8081
+    #  - 9600:9601
+    network_mode: service:lazytainer
+    depends_on:
+      - lazytainer
+    labels:
+      - "lazytainer.marker=lazytainer"
+      - "lazytainer.group=acserver"
+    volumes:
+      - /opt/assettocorsa/cfg:/home/steam/assettocorsa/cfg:ro
+      - acserver-mods:/home/steam/assettocorsa/content:ro
+
+volumes:
+  acserver-mods:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/assettocorsa/content
+      o: bind

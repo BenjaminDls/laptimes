@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'fr.benjamindanlos'
-version="0.7.2"
+version='0.8.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
@@ -64,4 +64,8 @@ tasks.named('jar'){
 	enabled = false
 }
 
-
+task printVersion {
+    doLast {
+        println version
+    }
+}

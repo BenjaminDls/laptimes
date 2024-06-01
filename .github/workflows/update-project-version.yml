@@ -1,0 +1,90 @@
+name: Gitflow
+
+on:
+  pull_request:
+    types:
+      - closed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-project-version:
+    runs-on: ubuntu-latest
+
+    if: github.event.pull_request.base.ref == 'main' &&
+        github.event.pull_request.head.ref == 'develop' &&
+        github.event.pull_request.merged == true
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          ref: main
+          fetch-depth: 0
+
+      # Set git credentials
+      - name: Git credentials
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      # Remove the -SNAPSHOT from the version to make a release
+      - name: Remove 'SNAPSHOT' in build.gradle
+        run: |
+          version=$(./gradlew -q printVersion)
+          newVersion=$( echo "$version" | cut -d - -f 1 )
+          echo "result : ${version} -> ${newVersion}"
+          sed -i "s/version='[0-9]*\.[0-9]*\.[0-9]*.*/version='"$newVersion"'/" build.gradle
+
+      # Commit release version on main
+      - name: Commit and push new version on main
+        run: |
+          git add build.gradle
+          git commit -m "ci: remove -SNAPSHOT"
+          git push
+        
+      # Create tag of new version
+      - name: Create tag
+        run: |
+          version=$(./gradlew -q printVersion)
+          git tag $version
+          git push origin $version
+
+      # Rebase develop onto main
+      - name: Merge main into develop and reset
+        run: |
+          git checkout develop
+          git merge -X theirs main
+          git reset --hard main  
+
+      # Find and increment the minor version
+      - name: Increment version in build.gradle
+        run: |
+          version=$(./gradlew -q printVersion)
+          major=$( echo "$version" | cut -d . -f 1 ) 
+          minor=$( echo "$version" | cut -d . -f 2 ) 
+          patch=$( echo "$version" | cut -d . -f 3 | cut -d - -f 1 ) 
+          minor=$((minor+1))
+
+          newVersion="${major}.${minor}.${patch}-SNAPSHOT"
+          echo "Calculated new version : ${newVersion}"
+          sed -i "s/version='[0-9]*\.[0-9]*\.[0-9]*.*/version='"$newVersion"'/" build.gradle
+
+      # Commit the new version in develop
+      - name: Commit and push new version on develop
+        run: |
+          git add build.gradle
+          git commit -m "ci: increment version"
+          git push --force
+
+      # Create a new PR from develop
+      - name: Create Pull Request
+        run: |
+          version=$(./gradlew -q printVersion)
+          newVersion=$( echo "$version" | cut -d - -f 1 )
+          gh pr create --base main --title "v$newVersion" --body "v$newVersion"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}

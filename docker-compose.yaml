@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+  laptimesapi:
+    container_name: laptimesapi
+    image: ghcr.io/benjamindls/laptimes:latest
+    ports:
+      - 8060:9000
+      - 9996:9996
+      - 20777:20777
+    environment:
+      - dbpass=${dbpass}
+      - dbuser=${dbuser}
+      - dbhost=${dbhost}
+      - dbport=${dbport}
+      - dbprotocol=${dbprotocol}
+      - dbdriver=${dbdriver}
+      - dbname=${dbname}
+      - dbdialect=${dbdialect}
+      - discord_bot_id=${discord_bot_id}
+      - discord_token=${discord_token}
+      - discord_events_channelId=${discord_events_channelId}
+    volumes:
+      - /opt/laptimesapi/release:/usr/app/
+    restart: unless-stopped
+    depends_on:
+      - laptimes_db
+
+  laptimesapi-dev:
+    container_name: laptimesapi-dev
+    image: ghcr.io/benjamindls/laptimes:snapshot
+    ports:
+      - 8061:9000
+      - 9997:9996
+      - 20778:20777
+    environment:
+      - dbpass=${dbpass_dev}
+      - dbuser=${dbuser_dev}
+      - dbhost=${dbhost_dev}
+      - dbport=${dbport_dev}
+      - dbprotocol=${dbprotocol_dev}
+      - dbdriver=${dbdriver_dev}
+      - dbname=${dbname_dev}
+      - discord_bot_id=${discord_bot_id_dev}
+      - discord_token=${discord_token_dev}
+      - discord_events_channelId=${discord_events_channelId_dev}
+      - JVM_OPTS=-Ddiscord.devmode=true
+    volumes:
+      - /opt/laptimesapi/dev:/usr/app/
+    restart: unless-stopped
+    depends_on:
+      - laptimes_db_dev
+  db:
+    image: mariadb
+    container_name: laptimes_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${dbadminpass}
+      MYSQL_DATABASE: laptimes
+      MYSQL_USER: ${dbuser}
+      MYSQL_PASSWORD: ${dbpass}
+    volumes:
+      - /opt/laptimesapi/release/ci-scripts/db/01-create.sql:/docker-entrypoint-initdb.d/01-create.sql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+  db_dev:
+    image: mariadb
+    container_name: laptimes_db_dev
+    environment:
+      MYSQL_ROOT_PASSWORD: ${dbadminpass}
+      MYSQL_DATABASE: laptimes
+      MYSQL_USER: ${dbuser_dev}
+      MYSQL_PASSWORD: ${dbpass_dev}
+    volumes:
+      - /opt/laptimesapi/release/ci_scripts/db/01-create.sql:/docker-entrypoint-initdb.d/01-create.sql
+      # Fill dev db with some data
+      - /opt/laptimesapi/release/ci_scripts/db/02-data.sql:/docker-entrypoint-initdb.d/02-data.sql
+    ports:
+      - "3307:3306"
+    restart: unless-stopped

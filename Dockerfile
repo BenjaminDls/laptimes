@@ -5,8 +5,8 @@ RUN gradle build --no-daemon
 
 FROM eclipse-temurin:17-jre
 WORKDIR /usr/app/
-COPY --from=builder /usr/app/build/libs/laptimes*.jar laptimes.jar
-COPY --from=builder /usr/app/src/main/resources/ci-scripts ci-scripts
+COPY --from=builder /usr/app/build/libs/laptimes*.jar /usr/app/laptimes.jar
+COPY --from=builder /usr/app/src/main/resources/ci-scripts /usr/app/ci-scripts
 EXPOSE 9000
 EXPOSE 9996
 EXPOSE 20777

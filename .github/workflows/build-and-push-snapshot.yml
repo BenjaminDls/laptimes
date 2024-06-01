@@ -43,3 +43,12 @@ jobs:
         push: true
         tags: ghcr.io/${{ secrets.GH_USERNAME }}/${{ github.event.repository.name }}:snapshot
         platforms: ${{ env.archs }}
+
+    # Delete old images (untagged, multi-arch compatible)
+    - name: Delete all untagged images
+      uses: dataaxiom/ghcr-cleanup-action@v1
+      with:
+        token: ${{ secrets.GH_PAT }}
+        owner: ${{ secrets.GH_USERNAME }}
+        repository: ${{ github.event.repository.name }}
+        package: ${{ github.event.repository.name }}

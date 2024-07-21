@@ -3,18 +3,20 @@ package fr.benjamindanlos.laptimes.F1.Listener;
 import fr.benjamindanlos.laptimes.F1.Decoder.PacketEventDecoder;
 import fr.benjamindanlos.laptimes.UDP.UDP;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
 
+@Slf4j
 @Service
 public class F1Listener {
 
-	@Value("${game.port.f12022:20777}")
+	@Value("${game.port.f1:20777}")
 	private int port;
 	@Value("${listenAddress}")
 	private String address;
@@ -28,7 +30,8 @@ public class F1Listener {
 			if(this.address==null || this.address.isEmpty()){
 				try {
 					this.address = InetAddress.getLocalHost().getHostAddress();
-				} catch (UnknownHostException e) {
+				} catch (Exception e) {
+					log.error("An error occurred trying to get localhost address", e);
 					throw new RuntimeException(e);
 				}
 			}
@@ -37,6 +40,7 @@ public class F1Listener {
 			try {
 				udpListener.bind().closeFuture().sync();
 			} catch (InterruptedException e) {
+				log.error("An error occurred waiting for UDP close future");
 				throw new RuntimeException(e);
 			}
 		}).start();

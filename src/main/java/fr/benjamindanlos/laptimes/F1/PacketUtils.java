@@ -1,4 +1,4 @@
-package fr.benjamindanlos.laptimes.F1.F12022;
+package fr.benjamindanlos.laptimes.F1;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;

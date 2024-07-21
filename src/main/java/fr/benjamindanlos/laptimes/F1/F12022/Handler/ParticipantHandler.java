@@ -1,7 +1,7 @@
 package fr.benjamindanlos.laptimes.F1.F12022.Handler;
 
+import fr.benjamindanlos.laptimes.F1.PacketUtils;
 import fr.benjamindanlos.laptimes.F1.F12022.Data.ParticipantData;
-import fr.benjamindanlos.laptimes.F1.F12022.PacketUtils;
 import fr.benjamindanlos.laptimes.F1.F12022.Packets.PacketParticipantsData;
 import org.springframework.stereotype.Service;
 

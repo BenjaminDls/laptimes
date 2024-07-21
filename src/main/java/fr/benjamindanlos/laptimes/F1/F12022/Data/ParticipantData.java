@@ -1,8 +1,8 @@
 package fr.benjamindanlos.laptimes.F1.F12022.Data;
 
 import io.netty.buffer.ByteBuf;
+import fr.benjamindanlos.laptimes.F1.PacketUtils;
 import fr.benjamindanlos.laptimes.F1.F12022.PacketConfig;
-import fr.benjamindanlos.laptimes.F1.F12022.PacketUtils;
 import fr.benjamindanlos.laptimes.F1.F12022.Enums.Driver;
 import fr.benjamindanlos.laptimes.F1.F12022.Enums.Nationality;
 import fr.benjamindanlos.laptimes.F1.F12022.Enums.Team;

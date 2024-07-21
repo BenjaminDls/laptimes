@@ -1,7 +1,7 @@
 package fr.benjamindanlos.laptimes.F1.F12022.Data;
 
+import fr.benjamindanlos.laptimes.F1.PacketUtils;
 import io.netty.buffer.ByteBuf;
-import fr.benjamindanlos.laptimes.F1.F12022.PacketUtils;
 import lombok.Data;
 
 @Data

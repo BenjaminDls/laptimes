@@ -2,7 +2,7 @@ package fr.benjamindanlos.laptimes.F1.F12022;
 
 public abstract class PacketConfig {
 
-    private static final String F1_TELEMETRY_SEASON_ENV_VAR = "F1_TELEMETRY_SEASON";
+    private static final String F1_TELEMETRY_SEASON_ENV_VAR = "F1_2022_TELEMETRY_SEASON";
 
     private static final String DEFAULT_F1_TELEMETRY_SEASON = "2022";
 
